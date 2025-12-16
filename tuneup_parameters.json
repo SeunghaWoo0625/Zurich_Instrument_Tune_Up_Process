@@ -1,0 +1,78 @@
+{
+"01_res_spec" : {
+    "Num_avg" : 10      ,
+    "Freq_span" : 15e6  ,
+    "Exp_pts" : 100     ,
+    "Drive_pulse" : "square"    ,
+    "Measure_pulse" : "spec"  ,
+    "Integration_pulse" : "none"
+},
+"03_qubit_spec" : {
+    "Num_avg" : 12      ,
+    "Freq_span" : 30e6  ,
+    "Exp_pts" : 100     ,
+    "Drive_pulse" : "spec_gaussian"    ,
+    "Measure_pulse" : "spec"  ,
+    "Integration_pulse" : "none"
+},
+"04_Rabi_amp" : {
+    "Num_avg" : 10      ,
+    "Freq_span" : 30e6  ,
+    "Exp_pts" : 200     ,
+    "Drive_pulse" : "gaussian"    ,
+    "Measure_pulse" : "state_readout"  ,
+    "Integration_pulse" : "none",
+    "qubit_amp_multiplier" : 3.0
+},
+"05_IQ_blobs" : {
+    "Num_avg" : 10      ,
+    "Freq_span" : 30e6  ,
+    "Exp_pts" : 200     ,
+    "180_Drive_pulse" : "gaussian"    ,
+    "Measure_pulse" : "spec"  ,
+    "Integration_pulse" : "none"
+},
+
+"05B_IQ_blobs_freq_amp_sweep" : {
+    "Num_avg" : 10      ,
+    "Freq_span" : 3e6  ,
+    "Freq_pts" : 200    ,
+    "Amp_pts" : 3       ,
+    "180_Drive_pulse" : "gaussian"  ,
+    "Measure_pulse" : "spec"      ,
+    "Integration_pulse" : "none"
+},
+
+"06_T1" : {
+    "Num_avg" : 10      ,
+    "Freq_span" : 30e6  ,
+    "Exp_pts" : 200     ,
+    "Drive_pulse" : "square"    ,
+    "Measure_pulse" : "spec"  ,
+    "Integration_pulse" : "none"
+},
+"07_Ramsey_virtual" : {
+    "Num_avg" : 10      ,
+    "Freq_span" : 30e6  ,
+    "Exp_pts" : 200     ,
+    "Drive_pulse" : "square"    ,
+    "Measure_pulse" : "square"  ,
+    "Integration_pulse" : "none"
+},
+"08_T2" : {
+    "Num_avg" : 10      ,
+    "Freq_span" : 30e6  ,
+    "Exp_pts" : 200     ,
+    "Drive_pulse" : "square"    ,
+    "Measure_pulse" : "square"  ,
+    "Integration_pulse" : "none"
+},
+"09_DRAG_cal" : {
+    "Num_avg" : 10      ,
+    "Freq_span" : 30e6  ,
+    "Exp_pts" : 200     ,
+    "Drive_pulse" : "square"    ,
+    "Measure_pulse" : "square"  ,
+    "Integration_pulse" : "none"
+}
+}
