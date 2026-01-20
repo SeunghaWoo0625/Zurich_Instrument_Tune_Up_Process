@@ -1,0 +1,50 @@
+{   "data_server" :{
+        "host" : "192.168.0.3",
+        "port" : "8004"
+    }
+    ,
+    "device" :{
+        "shfqc_0" :{
+            "uid" : "shfqc_0",
+            "address" : "SHFQC12079",
+            "interface" : "USB",
+            "device_options" : "SHFQC/PLUS/QC6CH"
+        }
+        ,
+        "hdawg_0" :{
+            "uid" : "hdawg_0",
+            "address" : "HDAWG12079",
+            "interface" : "USB",
+            "device_options" : "HDAWG8/CNT/MF/ME/PC/SKW/IQ"
+    }
+    }
+    ,
+    "qubit" : {
+        "d1" : {
+            "drive" : {
+                "device" : "shfqc_0",
+                "port" : "SGCHANNELS/0/OUTPUT"
+            }
+            ,
+            "ef_drive" : {
+                "device" : "shfqc_0",
+                "port" : "SGCHANNELS/0/OUTPUT"
+            }
+            ,
+            "flux" : {
+                "device" : "hdawg_0",
+                "port" : "SIGOUTS/0"
+            }
+            ,
+            "measure" : {
+                "device" : "shfqc_0",
+                "port" : "QACHANNELS/0/OUTPUT"
+            }
+            ,
+            "acquire" : {
+                "device" : "shfqc_0",
+                "port" : "QACHANNELS/0/INPUT"
+            }
+        }
+    }
+}
