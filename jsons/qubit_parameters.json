@@ -58,6 +58,7 @@
     ,
     "measures": {
         "spec_square" : {
+          "acquire_type" : "SPECTROSCOPY",
           "type" : "parametric",
           "freq": 5000000000.0,
           "port_delay" : 8.75e-08,
@@ -76,23 +77,28 @@
           "f_Q": 0.0,
           "g_sigma": 0.0,
           "e_sigma": 0.0,
-          "f_sigma": 0.0
+          "f_sigma": 0.0,
+          "threshold" : 0.0
         }
         ,
         "inte_square" : {
+          "acquire_type" : "INTEGRATION",
           "type":"parametric",
           "freq": 5000000000.0,
+          "port_delay" : 8.75e-08,
           "pulse_amp": 0.2,
           "pulse_length": 1.0e-6,
           "integration_length":2.0e-06,
-          "integration_phase":0.0
+          "integration_phase":0.0,
+          "threshold" : 0.0
         }
         ,
         "inte_discriminator" : {
+          "acquire_type" : "INTEGRATION",
           "type":"waveform",
           "save_address": "C:/QDL/WORK/Zurich_Instrument/Zurich_Instrument_Tune_Up_Process/jsons/integration_weights/d1_integration_weights.wf",
-          
-          
+          "port_delay" : 8.75e-08,
+
           "g_I": 0.0,
           "g_Q": 0.0,
           "e_I": 0.0,

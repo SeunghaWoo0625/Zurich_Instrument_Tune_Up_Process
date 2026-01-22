@@ -7,28 +7,35 @@
         "shfqc_0" :{
             "uid" : "shfqc_0",
             "address" : "SHFQC12079",
-            "interface" : "USB",
+            "interface" : "1GbE",
             "device_options" : "SHFQC/PLUS/QC6CH"
+        }
+        ,
+        "shfqc_1" :{
+            "uid" : "shfqc_1",
+            "address" : "SHFQC12592",
+            "interface" : "1GbE",
+            "device_options" : "SHFQC/PLUS/QC2CH"
         }
         ,
         "hdawg_0" :{
             "uid" : "hdawg_0",
             "address" : "HDAWG12079",
-            "interface" : "USB",
-            "device_options" : "HDAWG8/CNT/MF/ME/PC/SKW/IQ"
-    }
+            "interface" : "1GbE",
+            "device_options" : "HDAWG8/MF/ME/PC/SKW"
+        }
     }
     ,
     "qubit" : {
         "d1" : {
             "drive" : {
                 "device" : "shfqc_0",
-                "port" : "SGCHANNELS/0/OUTPUT"
+                "port" : "SGCHANNELS/1/OUTPUT"
             }
             ,
             "ef_drive" : {
                 "device" : "shfqc_0",
-                "port" : "SGCHANNELS/0/OUTPUT"
+                "port" : "SGCHANNELS/1/OUTPUT"
             }
             ,
             "flux" : {
