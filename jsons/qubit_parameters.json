@@ -61,7 +61,7 @@
           "acquire_type" : "SPECTROSCOPY",
           "type" : "parametric",
           "freq": 5000000000.0,
-          "port_delay" : 8.75e-08,
+          "port_delay" : 0.0e-08,
           "reset_delay_length" : 7e-05,
           "phase":0.0,
           "pulse_amp": 0.2,
@@ -78,7 +78,7 @@
           "g_sigma": 0.0,
           "e_sigma": 0.0,
           "f_sigma": 0.0,
-          "threshold" : [0.0,0.0]
+          "threshold" : [0.0]
         }
         ,
         "inte_square" : {

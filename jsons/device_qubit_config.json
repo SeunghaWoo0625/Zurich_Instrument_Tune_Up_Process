@@ -6,24 +6,12 @@
     "device" :{
         "shfqc_0" :{
             "uid" : "shfqc_0",
-            "address" : "SHFQC12079",
+            "address" : "DEV12079",
             "interface" : "1GbE",
             "device_options" : "SHFQC/PLUS/QC6CH"
         }
-        ,
-        "shfqc_1" :{
-            "uid" : "shfqc_1",
-            "address" : "SHFQC12592",
-            "interface" : "1GbE",
-            "device_options" : "SHFQC/PLUS/QC2CH"
-        }
-        ,
-        "hdawg_0" :{
-            "uid" : "hdawg_0",
-            "address" : "HDAWG12079",
-            "interface" : "1GbE",
-            "device_options" : "HDAWG8/MF/ME/PC/SKW"
-        }
+        
+
     }
     ,
     "qubit" : {
@@ -36,11 +24,6 @@
             "ef_drive" : {
                 "device" : "shfqc_0",
                 "port" : "SGCHANNELS/1/OUTPUT"
-            }
-            ,
-            "flux" : {
-                "device" : "hdawg_0",
-                "port" : "SIGOUTS/0"
             }
             ,
             "measure" : {

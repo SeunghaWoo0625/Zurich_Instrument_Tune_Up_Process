@@ -1,7 +1,7 @@
 from laboneq.simple import *
 import utils
 
-muting_mode = True
+muting_mode = False
 
 def calibrate_devices(measure_type = "spec_square"):
     assert utils.validate_device_existence(), "Device existence validation failed. Please check device configuration."
@@ -39,7 +39,14 @@ def calibrate_devices(measure_type = "spec_square"):
         #xy, measure, acquire 연결
         for drive in device_qubit_configs["qubit"][qubit]:
             device_setup.add_connections(device_qubit_configs["qubit"][qubit][drive]["device"], create_connection(to_signal=f"{qubit}/{drive}_line", ports=device_qubit_configs["qubit"][qubit][drive]["port"]))
-    
+    # for qubit in device_qubit_configs["qubit"]:
+    #     device_setup.add_connections("shfqc_0",
+    #                             create_connection(to_signal=f"{qubit}/measure_line", ports="QACHANNELS/0/OUTPUT"),
+    #                             create_connection(to_signal=f"{qubit}/acquire_line", ports="QACHANNELS/0/INPUT"),
+    #                             create_connection(to_signal=f"{qubit}/drive_line", ports=f"SGCHANNELS/1/OUTPUT",),
+    #                             create_connection(to_signal=f"{qubit}/ef_drive_line", ports=f"SGCHANNELS/1/OUTPUT",),
+    #                             )
+
     print(device_setup)
 
     #logical signal, baseline calibration 설정
@@ -55,7 +62,7 @@ def calibrate_devices(measure_type = "spec_square"):
         drive_device = device_qubit_configs["qubit"][qubit]["drive"]["device"]
         drive_port = utils.port_to_int(device_qubit_configs["qubit"][qubit]["drive"]["port"])
         drive_lo_freq = qubit_params[drive_device]["sg_channel"]["local_oscillator_frequency"][drive_port//2]
-        flux_device = device_qubit_configs["qubit"][qubit]["flux"]["device"]
+        # flux_device = device_qubit_configs["qubit"][qubit]["flux"]["device"]
         ge_drive_freq = qubit_info["parameters"]["freq"] - drive_lo_freq
         ef_drive_freq = qubit_info["parameters"]["freq_ef"] - drive_lo_freq
         measure_freq = qubit_info["measures"][measure_type]["freq"] - measure_lo_freq

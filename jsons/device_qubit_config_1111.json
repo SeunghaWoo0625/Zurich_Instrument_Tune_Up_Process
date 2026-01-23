@@ -1,156 +1,56 @@
-{        "Data_server" :{
-            "ip" : "192.168.0.3",
-            "port" : 8004
-        }
-        ,
-    "Device" :{
-
-        "PQSC" :{
-            "uid" : "PQSC",
-            "address" : "PQSC0000",
-            "device_options" : "PQSC/000/000"
-        }
-        ,
-        "SHFQC_0" :{
-            "uid" : "SHFQC_0",
-            "address" : "SHFQC12079",
-            "interface" : "USB",
-            "device_options" : "SHFQC/PLUS/QC6CH"
-        }
-        ,
-        "SHFQC_1" :{
-            "uid" : "SHFQC_1",
-            "address" : "SHFQC12080",
-            "interface" : "USB",
-            "device_options" : "SHFQC/PLUS/QC6CH"
-        }
-        ,
-        "HDAWG" :{
-            "uid" : "HDAWG",
-            "address" : "HDAWG0000",
-            "interface" : "USB",
-            "device_options" : "HDAWG/000/004"
-        }
-
+{   "data_server" :{
+        "host" : "192.168.0.3",
+        "port" : "8004"
     }
     ,
-    "Qubit" : {
-        "D1" : {
-            "XY_drive" : {
-                "device" : "SHFQC_0",
-                "port" : 0
-            }
-            ,
-            "Flux" : {
-                "device" : "HDAWG",
-                "port" : 0
-            }
-            ,
-            "Readout" : {
-                "device" : "SHFQC_1",
-                "port" : 0
-            }
+    "device" :{
+        "shfqc_0" :{
+            "uid" : "shfqc_0",
+            "address" : "DEV12079",
+            "interface" : "1GbE",
+            "device_options" : "SHFQC/PLUS/QC6CH"
         }
         ,
-        "D2" : {
-            "XY_drive" : {
-                "device" : "SHFQC_0",
-                "port" : 0
-            }
-            ,
-            "Flux" : {
-                "device" : "HDAWG",
-                "port" : 0
-            }
-            ,
-            "Readout" : {
-                "device" : "SHFQC_1",
-                "port" : 0
-            }
+        "shfqc_1" :{
+            "uid" : "shfqc_1",
+            "address" : "DEV12592",
+            "interface" : "1GbE",
+            "device_options" : "SHFQC/PLUS/QC2CH"
         }
         ,
-        "D3" : {
-            "XY_drive" : {
-                "device" : "SHFQC_0",
-                "port" : 0
-            }
-            ,
-            "Flux" : {
-                "device" : "HDAWG",
-                "port" : 0
-            }
-            ,
-            "Readout" : {
-                "device" : "SHFQC_1",
-                "port" : 0
-            }
+        "hdawg_0" :{
+            "uid" : "hdawg_0",
+            "address" : "DEV8666",
+            "interface" : "1GbE",
+            "device_options" : "HDAWG8/MF/ME/PC/SKW"
         }
-        ,
-        "D4" : {
-            "XY_drive" : {
-                "device" : "SHFQC_0",
-                "port" : 0
+    }
+    ,
+    "qubit" : {
+        "d1" : {
+            "drive" : {
+                "device" : "shfqc_0",
+                "port" : "SGCHANNELS/1/OUTPUT"
             }
             ,
-            "Flux" : {
-                "device" : "HDAWG",
-                "port" : 0
+            "ef_drive" : {
+                "device" : "shfqc_0",
+                "port" : "SGCHANNELS/1/OUTPUT"
             }
             ,
-            "Readout" : {
-                "device" : "SHFQC_1",
-                "port" : 0
-            }
-        }
-        ,
-        "A1" : {
-            "XY_drive" : {
-                "device" : "SHFQC_0",
-                "port" : 0
+            "flux" : {
+                "device" : "hdawg_0",
+                "port" : "SIGOUTS/0"
             }
             ,
-            "Flux" : {
-                "device" : "HDAWG",
-                "port" : 0
+            "measure" : {
+                "device" : "shfqc_0",
+                "port" : "QACHANNELS/0/OUTPUT"
             }
             ,
-            "Readout" : {
-                "device" : "SHFQC_1",
-                "port" : 0
-            }
-        }
-        ,
-        "A2" : {
-            "XY_drive" : {
-                "device" : "SHFQC_0",
-                "port" : 0
-            }
-            ,
-            "Flux" : {
-                "device" : "HDAWG",
-                "port" : 0
-            }
-            ,
-            "Readout" : {
-                "device" : "SHFQC_1",
-                "port" : 0
-            }
-        }
-        ,
-        "A3" : {
-            "XY_drive" : {
-                "device" : "SHFQC_0",
-                "port" : 0
-            }
-            ,
-            "Flux" : {
-                "device" : "HDAWG",
-                "port" : 0
-            }
-            ,
-            "Readout" : {
-                "device" : "SHFQC_1",
-                "port" : 0
+            "acquire" : {
+                "device" : "shfqc_0",
+                "port" : "QACHANNELS/0/INPUT"
             }
         }
     }
