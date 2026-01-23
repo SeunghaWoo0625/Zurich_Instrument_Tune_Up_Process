@@ -40,10 +40,10 @@ def calibrate_devices(measure_type = "spec_square"):
         for drive in device_qubit_configs["qubit"][qubit]:
             device_setup.add_connections(device_qubit_configs["qubit"][qubit][drive]["device"], create_connection(to_signal=f"{qubit}/{drive}_line", ports=device_qubit_configs["qubit"][qubit][drive]["port"]))
     
+    print(device_setup)
+
     #logical signal, baseline calibration 설정
     for qubit in device_qubit_configs["qubit"]:
-        #measure 방식 : INTEGRATION / SPECTROSCOPY
-        acquisition_type = qubit_params["measures"][measure_type]["acquire_type"]
 
         # logical signal group 설정
         lsg = device_setup.logical_signal_groups[qubit]
@@ -58,11 +58,13 @@ def calibrate_devices(measure_type = "spec_square"):
         flux_device = device_qubit_configs["qubit"][qubit]["flux"]["device"]
         ge_drive_freq = qubit_info["parameters"]["freq"] - drive_lo_freq
         ef_drive_freq = qubit_info["parameters"]["freq_ef"] - drive_lo_freq
-        measure_freq = qubit_info["measure"][measure_type]["freq"] - measure_lo_freq
+        measure_freq = qubit_info["measures"][measure_type]["freq"] - measure_lo_freq
 
         measure_lo_osc = Oscillator(f"{measure_device}_qa_lo_osc", frequency=measure_lo_freq)
         drive_lo_osc = Oscillator(f"{drive_device}_sg_lo_osc_{drive_port//2}", frequency=drive_lo_freq)
         
+        #measure 방식 : INTEGRATION / SPECTROSCOPY
+        acquisition_type = qubit_info["measures"][measure_type]["acquire_type"]
 
         if acquisition_type == "INTEGRATION":
             if qubit_info["operations"]["acquire"]["integration_type"] == "parametric":
@@ -79,8 +81,7 @@ def calibrate_devices(measure_type = "spec_square"):
                     oscillator=acquire_osc,
                     range = qubit_params[measure_device]["qa_channel"]["range_in_integration"],
                     port_delay=qubit_info["measures"][measure_type]["port_delay"],
-                    
-                    threshold = 
+                    threshold =qubit_info["measures"][measure_type]["threshold"]
                 )
             elif qubit_info["operations"]["acquire"]["integration_type"] == "waveform":
                 #추후 작성
@@ -100,7 +101,9 @@ def calibrate_devices(measure_type = "spec_square"):
                 local_oscillator=measure_lo_osc,
                 oscillator=acquire_osc,
                 range = qubit_params[measure_device]["qa_channel"]["range_in_spectroscopy"],
-                port_delay=qubit_info["measures"][measure_type]["port_delay"]
+                port_delay=qubit_info["measures"][measure_type]["port_delay"],
+                threshold =qubit_info["measures"][measure_type]["threshold"]
+
             )
 
         # drive 신호 설정 (ge, ef) 
@@ -115,9 +118,9 @@ def calibrate_devices(measure_type = "spec_square"):
         ef_osc = Oscillator(f"{qubit}_ef_drive_osc", frequency=ef_drive_freq, modulation_type=ModulationType.HARDWARE)
         lsg.logical_signals["ef_drive_line"].calibration = SignalCalibration(
             oscillator=ef_osc,
-            local_oscillator=drive_lo_osc,
-            range=qubit_params[drive_device]["sg_channel"]["range_out"][drive_port]
+            local_oscillator=drive_lo_osc
         )
-        ##나중에 flux도 추가하기
+
+        ##나중에 flux도 calibration해야되면 하기        
             
     return device_setup

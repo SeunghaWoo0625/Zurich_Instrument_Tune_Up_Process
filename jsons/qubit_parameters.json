@@ -78,7 +78,7 @@
           "g_sigma": 0.0,
           "e_sigma": 0.0,
           "f_sigma": 0.0,
-          "threshold" : 0.0
+          "threshold" : [0.0,0.0]
         }
         ,
         "inte_square" : {
@@ -90,7 +90,7 @@
           "pulse_length": 1.0e-6,
           "integration_length":2.0e-06,
           "integration_phase":0.0,
-          "threshold" : 0.0
+          "threshold" : [0.0,0.0]
         }
         ,
         "inte_discriminator" : {
@@ -108,8 +108,7 @@
           "g_sigma": 0.0,
           "e_sigma": 0.0,
           "f_sigma": 0.0,
-          "threshold_ge": 0.0,
-          "threshold_ef": 0.0          
+          "threshold": [0.0,0.0]
         }
       }
   }
