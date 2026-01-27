@@ -2,23 +2,133 @@ import matplotlib.pyplot as plt
 from laboneq.simple import *
 import numpy as np
 
-def time_of_flight_figure(results):
+##----------------
+##  global functions
+##----------------
+
+def input_signal_to_power(range_in , input_signals, acquisition_type = "SPECTROSCOPY", path = "RF"):
+    #acqusition_type : "SPECTROSCOPY", "INTEGRATION", "RAW"
+    #path : "RF", "LF"
+    #power : [dbm]
+    if acquisition_type == "RAW":
+        voltage_range = power_to_voltage(range_in)
+        if path == "RF":
+            return voltage_range*input_signals*2**0.5
+        if path == "LF":
+            return voltage_range*input_signals
+    elif acquisition_type == "SPECTROSCOPY":
+        return input_signals
+    elif acquisition_type == "INTEGRATION":
+        return input_signals
+
+def power_to_voltage(power):
+    # power : [dbm]
+    # voltage : [V] : peak voltage
+    voltage = 10**((power-10)/20)
+    return voltage
+
+def voltage_to_power(voltage):
+    # power : [dbm]
+    # voltage : [V] : peak voltage
+    power = 20*np.log10(voltage)+10
+    return power
+##----------------
+##  time of flight
+## ---------------
+def analyze_tof_signal(raw_data, delay_axis, time_axis):
+    """
+    Raw Data의 면적(적분값)을 계산하여 최적의 Port Delay를 찾습니다.
+    
+    Args:
+        raw_data (np.array): (Delay_Points, Time_Samples) 형태의 복소수 데이터
+        delay_axis (np.array): Port Delay 축 데이터
+        time_axis (np.array): Raw Trace 시간 축 데이터
+        
+    Returns:
+        dict: 최적값 및 분석 결과를 담은 딕셔너리
+    """
+    # 1. 진폭(절댓값) 계산
+    data_abs = np.abs(raw_data)
+    
+    # 2. 각 Delay 단계별 Raw Trace의 넓이(적분) 계산
+    # axis=1 (시간축) 방향으로 다 더함
+    integrated_area = np.sum(data_abs, axis=1)
+    
+    # 3. 넓이가 최대가 되는 인덱스 찾기
+    max_idx = np.argmax(integrated_area)
+    
+    # 4. 최적의 Delay 값과 그때의 Trace 추출
+    optimal_delay = delay_axis[max_idx]
+    optimal_trace = data_abs[max_idx]
+    max_area_value = integrated_area[max_idx]
+    
+    return {
+        "integrated_area": integrated_area,
+        "max_idx": max_idx,
+        "optimal_delay": optimal_delay,
+        "optimal_trace": optimal_trace,
+        "max_area_value": max_area_value,
+        "data_abs": data_abs
+    }
+
+def time_of_flight_figure(results, device):
     handle = results.experiment.uid
-    data = results.get_data(handle)
-    axis = results.get_axis(handle)
+    # LabOne Q 결과에서 데이터와 축 추출
+    # 결과 형상 가정: (Sweep_Count, Sample_Count)
+    raw_data = results.get_data(handle) 
+    
+    #device의 range in으로 부터 나중에 데이터 voltage로 변환
+    range_in = results.device. 
+    # 축 정보 가져오기 (LabOne Q 버전에 따라 get_axis 반환값이 다를 수 있음)
+    # 일반적으로 axis[0]: Sweep Axis (Delay), axis[1]: Grid Axis (Time)
+    axes = results.get_axis(handle)
+    delay_axis = axes[0]
+    time_axis = axes[1]
 
-    data_abs = np.abs(data)
+    # 분석 수행
+    analysis = analyze_tof_signal(raw_data, delay_axis, time_axis)
+    
+    # 그래프 그리기 (3행 1열)
+    fig, ax = plt.subplots(3, 1, figsize=(10, 15), constrained_layout=True)
+    
+    # [1] Heatmap: Delay vs Raw Time
+    # pcolormesh가 pcolor보다 빠름
+    c = ax[0].pcolormesh(time_axis / 2 , delay_axis * 1e9, analysis["data_abs"], shading='auto', cmap='viridis')
+    ax[0].set_title(f"[{device}] Time of Flight Raw Traces")
+    ax[0].set_xlabel("Raw Trace Time [ns]")
+    ax[0].set_ylabel("Port Delay [ns]")
+    fig.colorbar(c, ax=ax[0], label="|Amplitude|")
+    
+    # 최적 위치 표시 (수평선)
+    ax[0].axhline(analysis["optimal_delay"] * 1e9, color='r', linestyle='--', label="Optimal Delay")
+    ax[0].legend()
 
-    fig, ax = plt.subplots()
-    ax.pcolor(axis[1]/2, axis[0]/1e-9, data_abs)
-    ax.set_title("delay time sweep, raw trace readout", fontsize=14)
-    ax.set_xlabel("raw trace time [ns]")
-    ax.set_ylabel("port delay time [ns]", fontsize=12)
-       
-    # 5. Figure 객체 반환
-    return fig
+    # [2] Integration Area vs Port Delay
+    ax[1].plot(delay_axis * 1e9, analysis["integrated_area"], 'o-', markersize=4)
+    ax[1].set_title("Signal Area (Integration) vs Port Delay")
+    ax[1].set_xlabel("Port Delay [ns]")
+    ax[1].set_ylabel("Integrated Area [a.u.]")
+    ax[1].grid(True, alpha=0.3)
+    
+    # 최적점 강조
+    ax[1].plot(analysis["optimal_delay"] * 1e9, analysis["max_area_value"], 'rx', markersize=10, 
+               label=f"Max at {analysis['optimal_delay']*1e9:.1f} ns")
+    ax[1].legend()
+
+    # [3] Optimal Raw Trace (넓이가 최대일 때의 데이터)
+    ax[2].plot(time_axis /2 , analysis["optimal_trace"], 'b-', label=f"Delay = {analysis['optimal_delay']*1e9:.1f} ns")
+    ax[2].set_title(f"Raw Trace at Optimal Delay")
+    ax[2].set_xlabel("Raw Trace Time [ns]")
+    ax[2].set_ylabel("|Amplitude| [a.u.]")
+    ax[2].grid(True, alpha=0.3)
+    ax[2].legend()
+
+    return fig, analysis["optimal_delay"]
 
 
+##----------------
+##  res_spec
+## ---------------
 
 
 

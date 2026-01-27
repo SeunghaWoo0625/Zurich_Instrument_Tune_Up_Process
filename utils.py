@@ -87,8 +87,8 @@ def validate_device_existence(device_qubit_configs=None):
 
     # 차집합 연산: 사용되었으나 정의되지 않은 장비 찾기
     missing_devices = list(used_devices - defined_devices)
-
-    return missing_devices==[]
+    missing_connections = list(defined_devices - used_devices)
+    return (missing_devices==[]) and (missing_connections == [])
 
 def save_fig_qubit_params(folder_path, results, figure, qbn, qubit_parameters=None, device_qubit_config = None, tuneup_parameters=None):
 
@@ -102,7 +102,7 @@ def save_fig_qubit_params(folder_path, results, figure, qbn, qubit_parameters=No
     # 저장
     # results.save_signal_map(os.path.join(save_dir, results_file_full_name))
     # print(f"Results saved to: {os.path.join(save_dir, results_file_full_name)}")
-    
+
     if qubit_parameters != None:
         qubit_parameters_file_full_name = os.path.join(folder_path, f"{qbn}_qubit_parameters.json")
         with open(qubit_parameters_file_full_name, 'w', encoding='utf-8') as f:
@@ -117,52 +117,3 @@ def save_fig_qubit_params(folder_path, results, figure, qbn, qubit_parameters=No
         device_qubit_config_file_full_name = os.path.join(folder_path, f"{qbn}_device_qubit_config.json")
         with open(device_qubit_config_file_full_name, 'w', encoding='utf-8') as f:
             json.dump(device_qubit_config, f, indent=4, ensure_ascii=False)
-
-
-# def save_fig(figure, file_name, exp_name, qbn, experiment_id):
-#     # 현재 스크립트의 위치를 기준으로 경로 설정
-#     base_path = os.path.dirname(os.path.abspath(file_name))
-
-#     now = datetime.now()
-#     datestr = now.strftime("%Y-%m-%d")
-#     timestr = now.strftime("%H%M%S") # 가독성을 위해 언더바(_)는 파일명 조합 때 넣습니다.
-
-#     # 폴더 구조: .../EXPERIMENT_ID/exp_name_날짜/
-#     # 예: .../Exp001/ResSpec_2023-10-27/
-#     folder_name = f"{exp_name}_{datestr}"
-#     save_dir = os.path.join(base_path, str(experiment_id), folder_name)
-    
-#     # 폴더 생성
-#     os.makedirs(save_dir, exist_ok=True)
-
-#     # 파일 이름: Q{qbn}_{timestr}.png
-#     # 예: Q1_143005.png
-#     file_full_name = f"Q{qbn}_{timestr}.png"
-    
-#     # 저장
-#     figure.savefig(os.path.join(save_dir, file_full_name))
-#     print(f"Figure saved to: {os.path.join(save_dir, file_full_name)}")
-
-
-# def save_results(results, file_name, exp_name, qbn, experiment_id):
-#     # 현재 스크립트의 위치를 기준으로 경로 설정
-#     base_path = os.path.dirname(os.path.abspath(file_name))
-
-#     now = datetime.now()
-#     datestr = now.strftime("%Y-%m-%d")
-#     timestr = now.strftime("%H%M%S")
-
-#     # 폴더 구조: .../EXPERIMENT_ID/exp_name_날짜/
-#     folder_name = f"{exp_name}_{datestr}"
-#     save_dir = os.path.join(base_path, str(experiment_id), folder_name)
-    
-#     # 폴더 생성
-#     os.makedirs(save_dir, exist_ok=True)
-
-#     # 파일 이름: Q{qbn}_{timestr}_results.json
-#     # 예: Q1_143005_results.json
-#     file_full_name = f"Q{qbn}_{timestr}_results.json"
-    
-#     # 저장
-#     results.save(os.path.join(save_dir, file_full_name))
-#     print(f"Results saved to: {os.path.join(save_dir, file_full_name)}")

@@ -14,7 +14,7 @@ def time_of_flight(qubit_parameters, device_qubit_config,
                    Num_avg = 1000, 
                    Delay_time_begin = 0e-9, 
                    Delay_time_end = 150e-9, 
-                   Delay_time_points=150, 
+                   Delay_time_points= 150, 
                    Measure_length = 100e-9,
                    save_pulse_sheet = True):
     """
@@ -38,28 +38,33 @@ def time_of_flight(qubit_parameters, device_qubit_config,
     results_folder_path = Path(f"experiment_results/{id}/{time_str}_{Path(__file__).stem}")
     results_folder_path.mkdir(parents=True, exist_ok=True)
 
-    for i, qubit in enumerate(device_qubit_config["qubits"]):
-        baseline_calibration = calibrate_devices()
-        session = Session(device_setup=baseline_calibration)
-        session.connect()
+    for i, device in enumerate(device_qubit_config["devices"]):
+        if "shfqc" in device:
+            baseline_calibration = calibrate_devices(measure_type = "spec_square")
+            session = Session(device_setup=baseline_calibration)
+            session.connect()
 
-        exp = time_of_flight_experiment(qubit, delay_time_sweeper, readout_pulse, Num_avg)
-        
-        auto_map_signals(exp, baseline_calibration)
-        compiled_exp = session.compile(exp)
-        if save_pulse_sheet == True:
-            show_pulse_sheet(results_folder_path / f"{qubit}_pulse_sheet", compiled_exp)
-        results = session.run(compiled_exp, include_results_metadata=True)
-        figure = time_of_flight_figure(results)
+            for qubit in device_qubit_config["qubits"]:
+                if device_qubit_config["qubits"][qubit]["measure"]["device"] == device:
+                    break
 
-        if i == 0:
-            utils.save_fig_qubit_params(results_folder_path, results, figure, qubit, qubit_parameters=qubit_parameters, device_qubit_config=device_qubit_config, tuneup_parameters=tuneup_parameters)
-        else:
-            utils.save_fig_qubit_params(results_folder_path, results, figure, qubit)
+            exp = time_of_flight_experiment(qubit, delay_time_sweeper, readout_pulse, Num_avg)
+            
+            auto_map_signals(exp, baseline_calibration)
+            compiled_exp = session.compile(exp)
+            if save_pulse_sheet == True:
+                show_pulse_sheet(results_folder_path / f"{device}_pulse_sheet", compiled_exp)
+            results = session.run(compiled_exp, include_results_metadata=True)
+            figure = time_of_flight_figure(results)
+
+            if i == 0:
+                utils.save_fig_qubit_params(results_folder_path, results, figure, device, qubit_parameters=qubit_parameters, device_qubit_config=device_qubit_config, tuneup_parameters=tuneup_parameters)
+            else:
+                utils.save_fig_qubit_params(results_folder_path, results, figure, device)
         
 @workflow.task
 def time_of_flight_experiment(qubit, delay_time_sweeper, readout_pulse, Num_avg, reset_delay_length = 70e-6):
-    exp_tof = Experiment(id = "time_of_flight")
+    exp_tof = Experiment(uid = "time_of_flight")
 
     with exp_tof.sweep(uid = "delay_time_sweep", parameter = delay_time_sweeper):
         with exp_tof.acquire_loop_rt(uid = "raw_data_acquisition",
@@ -67,7 +72,7 @@ def time_of_flight_experiment(qubit, delay_time_sweeper, readout_pulse, Num_avg,
                                      acquisition_type=AcquisitionType.RAW):
             with exp_tof.section(uid = "mesure", on_system_grid=True, alignment=SectionAlignment.LEFT):
                 exp_tof.play(signal = f"{qubit}_measure_signal", pulse = readout_pulse)
-                exp_tof.acquire(signal = f"{qubit}_acquire_signal", handle = f"{qubit}_acquire_handle", pulse = readout_pulse)
+                exp_tof.acquire(signal = f"{qubit}_acquire_signal", handle = f"{qubit}_acquire_handle", kernel = readout_pulse)
                 exp_tof.delay(signal = f"{qubit}_measure_signal", time = reset_delay_length)
                 exp_tof.delay(signal = f"{qubit}_acquire_signal", time = reset_delay_length)
 
