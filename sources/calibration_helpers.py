@@ -41,7 +41,7 @@ def calibrate_devices(qubit_params = None, device_qubit_configs=None, measure_ty
     for qubit in device_qubit_configs["qubits"]:
         #xy, measure, acquire 연결
         for drive in device_qubit_configs["qubits"][qubit]:
-            device_setup.add_connections(device_qubit_configs["qubit"][qubit][drive]["device"], create_connection(to_signal=f"{qubit}/{drive}_line", ports=device_qubit_configs["qubit"][qubit][drive]["port"]))
+            device_setup.add_connections(device_qubit_configs["qubits"][qubit][drive]["device"], create_connection(to_signal=f"{qubit}/{drive}_line", ports=device_qubit_configs["qubits"][qubit][drive]["port"]))
     # for qubit in device_qubit_configs["qubit"]:
     #     device_setup.add_connections("shfqc_0",
     #                             create_connection(to_signal=f"{qubit}/measure_line", ports="QACHANNELS/0/OUTPUT"),
