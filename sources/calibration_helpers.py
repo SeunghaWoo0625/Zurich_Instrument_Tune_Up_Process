@@ -42,15 +42,6 @@ def calibrate_devices(qubit_params = None, device_qubit_configs=None, measure_ty
         #xy, measure, acquire 연결
         for drive in device_qubit_configs["qubits"][qubit]:
             device_setup.add_connections(device_qubit_configs["qubits"][qubit][drive]["device"], create_connection(to_signal=f"{qubit}/{drive}_line", ports=device_qubit_configs["qubits"][qubit][drive]["port"]))
-    # for qubit in device_qubit_configs["qubit"]:
-    #     device_setup.add_connections("shfqc_0",
-    #                             create_connection(to_signal=f"{qubit}/measure_line", ports="QACHANNELS/0/OUTPUT"),
-    #                             create_connection(to_signal=f"{qubit}/acquire_line", ports="QACHANNELS/0/INPUT"),
-    #                             create_connection(to_signal=f"{qubit}/drive_line", ports=f"SGCHANNELS/1/OUTPUT",),
-    #                             create_connection(to_signal=f"{qubit}/ef_drive_line", ports=f"SGCHANNELS/1/OUTPUT",),
-    #                             )
-
-    print(device_setup)
 
     #logical signal, baseline calibration 설정
     for qubit in device_qubit_configs["qubits"]:
@@ -77,12 +68,13 @@ def calibrate_devices(qubit_params = None, device_qubit_configs=None, measure_ty
         acquisition_type = qubit_info["measures"][measure_type]["acquire_type"]
 
         if acquisition_type == "INTEGRATION":
-            if qubit_info["operations"]["acquire"]["integration_type"] == "parametric":
+            if qubit_info["measures"][measure_type]["type"] == "parametric":
                 measure_osc = Oscillator(f"{qubit}_measure_osc", frequency = measure_freq, modulation_type=ModulationType.SOFTWARE)
                 acquire_osc = Oscillator(f"{qubit}_acquire_osc", frequency = measure_freq, modulation_type=ModulationType.SOFTWARE)
                 lsg.logical_signals["measure_line"].calibration = SignalCalibration(
                     local_oscillator=measure_lo_osc,
                     oscillator=measure_osc,
+                    port_delay=0,
                     range = qubit_params[measure_device]["qa_channel"]["range_out_integration"],
                     automute=muting_mode,
                 )
@@ -93,7 +85,7 @@ def calibrate_devices(qubit_params = None, device_qubit_configs=None, measure_ty
                     port_delay=qubit_info["measures"][measure_type]["port_delay"],
                     threshold =qubit_info["measures"][measure_type]["threshold"]
                 )
-            elif qubit_info["operations"]["acquire"]["integration_type"] == "waveform":
+            elif qubit_info["measures"][measure_type]["type"] == "waveform":
                 #추후 작성
                 print("아직 작성 안됨")
                 assert False

@@ -1,10 +1,10 @@
 {
   "shfqc_0" : {
     "qa_channel" : {
-      "local_oscillator_frequency" : 5000000000.0,
+      "local_oscillator_frequency" : 7200000000.0,
       "range_out_integration" : -20,
       "range_in_integration" : 0,
-      "range_out_spectroscopy" : -30,
+      "range_out_spectroscopy" : 0,
       "range_in_spectroscopy" : 0
     }
     ,
@@ -60,8 +60,8 @@
         "spec_square" : {
           "acquire_type" : "SPECTROSCOPY",
           "type" : "parametric",
-          "freq": 5000000000.0,
-          "port_delay" : 0.0e-08,
+          "freq": 7600000000.0,
+          "port_delay" : 80e-09,
           "reset_delay_length" : 7e-05,
           "phase":0.0,
           "pulse_amp": 0.2,
@@ -84,13 +84,13 @@
         "inte_square" : {
           "acquire_type" : "INTEGRATION",
           "type":"parametric",
-          "freq": 5000000000.0,
+          "freq": 7200000000.0,
           "port_delay" : 8.75e-08,
           "pulse_amp": 0.2,
           "pulse_length": 1.0e-6,
           "integration_length":2.0e-06,
           "integration_phase":0.0,
-          "threshold" : [0.0,0.0]
+          "threshold" : [0.0]
         }
         ,
         "inte_discriminator" : {
