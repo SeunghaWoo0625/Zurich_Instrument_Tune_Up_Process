@@ -3,7 +3,7 @@
         "port" : "8004"
     }
     ,
-    "device" :{
+    "devices" :{
         "shfqc_0" :{
             "uid" : "shfqc_0",
             "address" : "DEV12079",
@@ -14,7 +14,7 @@
 
     }
     ,
-    "qubit" : {
+    "qubits" : {
         "d1" : {
             "drive" : {
                 "device" : "shfqc_0",

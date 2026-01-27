@@ -3,41 +3,44 @@ import utils
 
 muting_mode = False
 
-def calibrate_devices(measure_type = "spec_square"):
-    assert utils.validate_device_existence(), "Device existence validation failed. Please check device configuration."
+def calibrate_devices(qubit_params = None, device_qubit_configs=None, measure_type = "spec_square"):
+    assert utils.validate_device_existence(device_qubit_configs), "Device existence validation failed. Please check device configuration."
 
     # Device Setup
-    device_qubit_configs = utils.get_device_qubit_config()
-    qubit_params = utils.get_qubit_params()
+    if device_qubit_configs == None:
+        device_qubit_configs = utils.get_device_qubit_config()
+    if qubit_params ==None:
+        qubit_params = utils.get_qubit_params()
+
     device_setup = DeviceSetup()
     device_setup.add_dataserver(**device_qubit_configs["data_server"])
 
 
     # 장비들 모두 추가
-    for dev_cfg in device_qubit_configs["device"]:
+    for dev_cfg in device_qubit_configs["devices"]:
         if "shfqc" in dev_cfg:
             device_setup.add_instruments(
                 SHFQC(
-                    **device_qubit_configs["device"][dev_cfg]
+                    **device_qubit_configs["devices"][dev_cfg]
                 )
             )
         elif "hdawg" in dev_cfg:
             device_setup.add_instruments(
                 HDAWG(
-                    **device_qubit_configs["device"][dev_cfg]
+                    **device_qubit_configs["devices"][dev_cfg]
                 )
             )
         elif "pqsc" in dev_cfg:
             device_setup.add_instruments(
                 PQSC(
-                    **device_qubit_configs["device"][dev_cfg]
+                    **device_qubit_configs["devices"][dev_cfg]
                 )
             )
     
     #Physical connection 설정
-    for qubit in device_qubit_configs["qubit"]:
+    for qubit in device_qubit_configs["qubits"]:
         #xy, measure, acquire 연결
-        for drive in device_qubit_configs["qubit"][qubit]:
+        for drive in device_qubit_configs["qubits"][qubit]:
             device_setup.add_connections(device_qubit_configs["qubit"][qubit][drive]["device"], create_connection(to_signal=f"{qubit}/{drive}_line", ports=device_qubit_configs["qubit"][qubit][drive]["port"]))
     # for qubit in device_qubit_configs["qubit"]:
     #     device_setup.add_connections("shfqc_0",
@@ -50,17 +53,17 @@ def calibrate_devices(measure_type = "spec_square"):
     print(device_setup)
 
     #logical signal, baseline calibration 설정
-    for qubit in device_qubit_configs["qubit"]:
+    for qubit in device_qubit_configs["qubits"]:
 
         # logical signal group 설정
         lsg = device_setup.logical_signal_groups[qubit]
 
         #Local oscillator 및 신호 주파수 설정
         qubit_info = qubit_params[qubit]
-        measure_device = device_qubit_configs["qubit"][qubit]["measure"]["device"]
+        measure_device = device_qubit_configs["qubits"][qubit]["measure"]["device"]
         measure_lo_freq = qubit_params[measure_device]["qa_channel"]["local_oscillator_frequency"]
-        drive_device = device_qubit_configs["qubit"][qubit]["drive"]["device"]
-        drive_port = utils.port_to_int(device_qubit_configs["qubit"][qubit]["drive"]["port"])
+        drive_device = device_qubit_configs["qubits"][qubit]["drive"]["device"]
+        drive_port = utils.port_to_int(device_qubit_configs["qubits"][qubit]["drive"]["port"])
         drive_lo_freq = qubit_params[drive_device]["sg_channel"]["local_oscillator_frequency"][drive_port//2]
         # flux_device = device_qubit_configs["qubit"][qubit]["flux"]["device"]
         ge_drive_freq = qubit_info["parameters"]["freq"] - drive_lo_freq

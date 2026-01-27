@@ -6,7 +6,7 @@ import shutil
 
 abs_path = os.path.dirname(os.path.abspath(__file__))
 DEVICE_QUBIT_CONFIG_FILE = abs_path + "/jsons/device_qubit_config.json"
-QUBIT_PARAMETERS_FILE = abs_path + "/jsons/qubit_parameters.json"
+QUBIT_PARAMETERS_FILE = abs_path + "/jsons/qubit_device_parameters.json"
 TUNEUP_PARAMETERS_FILE = abs_path + "/jsons/tuneup_parameters.json"
 PULSES_FILE = abs_path + "/pulses"
 
@@ -42,7 +42,7 @@ def port_to_int(port_str):
 
 def device_port_dictionary():
     device_qubit_config = get_device_qubit_config()
-    qubit_config = device_qubit_config["qubit"]
+    qubit_config = device_qubit_config["qubits"]
     device_usage_map = {}
 
     # 1. 큐비트 반복 (d1, d2, ...)
@@ -72,9 +72,11 @@ def device_port_dictionary():
 
     return final_usage_map
 
-def validate_device_existence():
-    device_qubit_config = get_device_qubit_config()
-    device_config = device_qubit_config["device"]
+def validate_device_existence(device_qubit_configs=None):
+    if device_qubit_configs == None:
+        device_qubit_configs = get_device_qubit_config()
+
+    device_config = device_qubit_configs["devices"]
     usage_map = device_port_dictionary()
 
     # 실제 정의된 장비 UID 목록 (shfqc_0 등)
