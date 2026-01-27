@@ -6,7 +6,7 @@ import shutil
 
 abs_path = os.path.dirname(os.path.abspath(__file__))
 DEVICE_QUBIT_CONFIG_FILE = abs_path + "/jsons/device_qubit_config.json"
-QUBIT_PARAMETERS_FILE = abs_path + "/jsons/qubit_device_parameters.json"
+QUBIT_PARAMETERS_FILE = abs_path + "/jsons/qubit_parameters.json"
 TUNEUP_PARAMETERS_FILE = abs_path + "/jsons/tuneup_parameters.json"
 PULSES_FILE = abs_path + "/pulses"
 
@@ -90,41 +90,33 @@ def validate_device_existence(device_qubit_configs=None):
 
     return missing_devices==[]
 
-def save_fig_qubit_params(results, figure, exp_name, qbn, experiment_id):
-    #실험 result, figure, qubit_params를 한꺼번에 저장하는 함수
-    # 현재 스크립트의 위치를 기준으로 경로 설정
+def save_fig_qubit_params(folder_path, results, figure, qbn, qubit_parameters=None, device_qubit_config = None, tuneup_parameters=None):
 
-    now = datetime.now()
-    datestr = now.strftime("%Y-%m-%d")
-    timestr = now.strftime("%H%M%S") # 가독성을 위해 언더바(_)는 파일명 조합 때 넣습니다.
-
-    # 폴더 구조: .../EXPERIMENT_ID/exp_name_날짜/
-    # 예: .../Exp001/ResSpec_2023-10-27/
-    folder_name = f"{exp_name}_{datestr}"
-    save_dir = os.path.join(abs_path, "experiment_results", str(experiment_id), folder_name)
-    
-    # 폴더 생성
-    os.makedirs(save_dir, exist_ok=True)
-
-    # 파일 이름: Q{qbn}_{timestr}.png
-    # 예: Q1_143005.png
-    fig_file_full_name = f"{qbn}_{timestr}.png"
+    fig_file = f"{qbn}.png"
+    save_dir = folder_path/fig_file
     # 저장
-    figure.savefig(os.path.join(save_dir, fig_file_full_name))
-    print(f"Figure saved to: {os.path.join(save_dir, fig_file_full_name)}")
+    figure.savefig(save_dir)
+    print(f"Figure saved to: {save_dir}")
 
     # results_file_full_name = f"Q{qbn}_{timestr}_results.json"
     # 저장
     # results.save_signal_map(os.path.join(save_dir, results_file_full_name))
     # print(f"Results saved to: {os.path.join(save_dir, results_file_full_name)}")
-
-    qubit_parameters_file_full_name = os.path.join(save_dir, f"{qbn}_{timestr}_qubit_parameters.json")
-    tuneup_parameters_file_full_name = os.path.join(save_dir, f"{qbn}_{timestr}_tuneup_parameters.json")
-
-    shutil.copy2(QUBIT_PARAMETERS_FILE, qubit_parameters_file_full_name)
-    shutil.copy2(TUNEUP_PARAMETERS_FILE, tuneup_parameters_file_full_name)
     
+    if qubit_parameters != None:
+        qubit_parameters_file_full_name = os.path.join(folder_path, f"{qbn}_qubit_parameters.json")
+        with open(qubit_parameters_file_full_name, 'w', encoding='utf-8') as f:
+            json.dump(qubit_parameters, f, indent=4, ensure_ascii=False)
 
+    if tuneup_parameters != None:
+        tuneup_parameters_file_full_name = os.path.join(folder_path, f"{qbn}_tuneup_parameters.json")
+        with open(tuneup_parameters_file_full_name, 'w', encoding='utf-8') as f:
+            json.dump(tuneup_parameters, f, indent=4, ensure_ascii=False)
+
+    if device_qubit_config != None:
+        device_qubit_config_file_full_name = os.path.join(folder_path, f"{qbn}_device_qubit_config.json")
+        with open(device_qubit_config_file_full_name, 'w', encoding='utf-8') as f:
+            json.dump(device_qubit_config, f, indent=4, ensure_ascii=False)
 
 
 # def save_fig(figure, file_name, exp_name, qbn, experiment_id):

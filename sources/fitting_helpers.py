@@ -1,9 +1,103 @@
-import numpy as np
-from scipy.optimize import minimize, leastsq
-from scipy.stats import linregress
 import matplotlib.pyplot as plt
-from laboneq.analysis import fitting as fit_mods
-import os
+from laboneq.simple import *
+import numpy as np
+
+def time_of_flight_figure(results):
+    handle = results.experiment.uid
+    data = results.get_data(handle)
+    axis = results.get_axis(handle)
+
+    data_abs = np.abs(data)
+
+    fig, ax = plt.subplots()
+    ax.pcolor(axis[1]/2, axis[0]/1e-9, data_abs)
+    ax.set_title("delay time sweep, raw trace readout", fontsize=14)
+    ax.set_xlabel("raw trace time [ns]")
+    ax.set_ylabel("port delay time [ns]", fontsize=12)
+       
+    # 5. Figure 객체 반환
+    return fig
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def find_oscillation_frequency_and_phase(data, time):
     w = np.fft.fft(data)
