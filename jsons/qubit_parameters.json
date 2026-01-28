@@ -1,21 +1,21 @@
 {
   "shfqc_0" : {
     "qa_channel" : {
-      "local_oscillator_frequency" : 7200000000.0,
-      "range_out_integration" : -20,
-      "range_in_integration" : 0,
-      "range_out_spectroscopy" : 0,
-      "range_in_spectroscopy" : 0
+      "readout_lo_frequency" : 7200000000.0,
+      "readout_range_out_INTEGRATION" : -20,
+      "readout_range_in_INTEGRATION" : 0,
+      "readout_range_out_SPECTROSCOPY" : 0,
+      "readout_range_in_SPECTROSCOPY" : 0
     }
     ,
     "sg_channel" : {
-      "local_oscillator_frequency" : [
+      "drive_lo_frequency" : [
         5000000000.0,
         5000000000.0,
         6000000000.0
       ]
       ,
-      "range_out" :[
+      "drive_range" :[
         -20,
         0,
         0,
@@ -27,12 +27,13 @@
   }
   ,
   "d1": {
-    "parameters": {
-      "freq": 5000000000.0,
-      "freq_ef": 5000000000.0,
+    "information": {
+      "resonance_frequency_ge": 5000000000.0,
+      "resonance_frequency_ef": 5000000000.0,
       "T1": 1e-05,
       "T2": 1.964e-05,
-      "T2_echo": 1e-05
+      "T2_echo": 1e-05,
+      "flux_offset_voltage" : 0.0
     }
     ,
     "operations" : {
@@ -57,59 +58,147 @@
     }
     ,
     "measures": {
-        "spec_square" : {
-          "acquire_type" : "SPECTROSCOPY",
-          "type" : "parametric",
-          "freq": 7600000000.0,
-          "port_delay" : 80e-09,
-          "reset_delay_length" : 7e-05,
-          "phase":0.0,
-          "pulse_amp": 0.2,
-          "pulse_length": 1.0e-6,
-          "integration_length":2.0e-06,
-          "integration_phase":0.0,
-          "amplitude_max_integration" : 1.0,
-          "g_I": 0.0,
-          "g_Q": 0.0,
-          "e_I": 0.0,
-          "e_Q": 0.0,
-          "f_I": 0.0,
-          "f_Q": 0.0,
-          "g_sigma": 0.0,
-          "e_sigma": 0.0,
-          "f_sigma": 0.0,
-          "threshold" : [0.0]
-        }
-        ,
-        "inte_square" : {
-          "acquire_type" : "INTEGRATION",
-          "type":"parametric",
-          "freq": 7200000000.0,
-          "port_delay" : 8.75e-08,
-          "pulse_amp": 0.2,
-          "pulse_length": 1.0e-6,
-          "integration_length":2.0e-06,
-          "integration_phase":0.0,
-          "threshold" : [0.0]
-        }
-        ,
-        "inte_discriminator" : {
-          "acquire_type" : "INTEGRATION",
-          "type":"waveform",
-          "save_address": "C:/QDL/WORK/Zurich_Instrument/Zurich_Instrument_Tune_Up_Process/jsons/integration_weights/d1_integration_weights.wf",
-          "port_delay" : 8.75e-08,
-
-          "g_I": 0.0,
-          "g_Q": 0.0,
-          "e_I": 0.0,
-          "e_Q": 0.0,
-          "f_I": 0.0,
-          "f_Q": 0.0,
-          "g_sigma": 0.0,
-          "e_sigma": 0.0,
-          "f_sigma": 0.0,
-          "threshold": [0.0,0.0]
-        }
+      "spec_square" : {
+        "acquire_type" : "SPECTROSCOPY",
+        "type" : "parametric",
+        "readout_resonator_frequency": 7600000000.0,
+        "readout_integration_delay" : 80e-09,
+        "reset_delay_length" : 7e-05,
+        "phase":0.0,
+        "pulse_amp": 0.2,
+        "pulse_length": 1.0e-6,
+        "integration_length":2.0e-06,
+        "integration_phase":0.0,
+        "amplitude_max_integration" : 1.0,
+        "g_I": 0.0,
+        "g_Q": 0.0,
+        "e_I": 0.0,
+        "e_Q": 0.0,
+        "f_I": 0.0,
+        "f_Q": 0.0,
+        "g_sigma": 0.0,
+        "e_sigma": 0.0,
+        "f_sigma": 0.0,
+        "threshold" : [0.0]
       }
+      ,
+      "inte_square" : {
+        "acquire_type" : "INTEGRATION",
+        "type":"parametric",
+        "readout_resonator_frequency": 7200000000.0,
+        "readout_integration_delay" : 8.75e-08,
+        "pulse_amp": 0.2,
+        "pulse_length": 1.0e-6,
+        "integration_length":2.0e-06,
+        "integration_phase":0.0,
+        "threshold" : [0.0]
+      }
+      ,
+      "inte_discriminator" : {
+        "acquire_type" : "INTEGRATION",
+        "type":"waveform",
+        "save_address": "C:/QDL/WORK/Zurich_Instrument/Zurich_Instrument_Tune_Up_Process/jsons/integration_weights/d1_integration_weights.wf",
+        "readout_integration_delay" : 8.75e-08,
+
+        "g_I": 0.0,
+        "g_Q": 0.0,
+        "e_I": 0.0,
+        "e_Q": 0.0,
+        "f_I": 0.0,
+        "f_Q": 0.0,
+        "g_sigma": 0.0,
+        "e_sigma": 0.0,
+        "f_sigma": 0.0,
+        "threshold": [0.0,0.0]
+      }
+    }
+  },
+  "d2": {
+    "information": {
+      "resonance_frequency_ge": 5000000000.0,
+      "resonance_frequency_ef": 5000000000.0,
+      "T1": 1e-05,
+      "T2": 1.964e-05,
+      "T2_echo": 1e-05,
+      "flux_offset_voltage" : 0.0
+    }
+    ,
+    "operations" : {
+      "drive": {
+        "type" : "parametric",
+        "amp_spectroscopy": 0.1,
+        "pulse_length": 2e-08,
+        "amp_pi": 1.00615,
+        "amp_half_pi": 0.503075,
+        "freq_detuning" : 0.0,
+        "beta" : 0.0
+      },
+      "ef_drive":{
+        "type" : "parametric",
+        "amp_spectroscopy": 0.1,
+        "pulse_length": 2e-08,
+        "amp_pi": 1.20615,
+        "amp_half_pi": 0.603075,
+        "freq_detuning" : 0.0,
+        "beta" : 0.0
+      }
+    }
+    ,
+    "measures": {
+      "spec_square" : {
+        "acquire_type" : "SPECTROSCOPY",
+        "type" : "parametric",
+        "readout_resonator_frequency": 7600000000.0,
+        "readout_integration_delay" : 80e-09,
+        "reset_delay_length" : 7e-05,
+        "phase":0.0,
+        "pulse_amp": 0.2,
+        "pulse_length": 1.0e-6,
+        "integration_length":2.0e-06,
+        "integration_phase":0.0,
+        "amplitude_max_integration" : 1.0,
+        "g_I": 0.0,
+        "g_Q": 0.0,
+        "e_I": 0.0,
+        "e_Q": 0.0,
+        "f_I": 0.0,
+        "f_Q": 0.0,
+        "g_sigma": 0.0,
+        "e_sigma": 0.0,
+        "f_sigma": 0.0,
+        "threshold" : [0.0]
+      }
+      ,
+      "inte_square" : {
+        "acquire_type" : "INTEGRATION",
+        "type":"parametric",
+        "readout_resonator_frequency": 7200000000.0,
+        "readout_integration_delay" : 8.75e-08,
+        "pulse_amp": 0.2,
+        "pulse_length": 1.0e-6,
+        "integration_length":2.0e-06,
+        "integration_phase":0.0,
+        "threshold" : [0.0]
+      }
+      ,
+      "inte_discriminator" : {
+        "acquire_type" : "INTEGRATION",
+        "type":"waveform",
+        "save_address": "C:/QDL/WORK/Zurich_Instrument/Zurich_Instrument_Tune_Up_Process/jsons/integration_weights/d1_integration_weights.wf",
+        "readout_integration_delay" : 8.75e-08,
+
+        "g_I": 0.0,
+        "g_Q": 0.0,
+        "e_I": 0.0,
+        "e_Q": 0.0,
+        "f_I": 0.0,
+        "f_Q": 0.0,
+        "g_sigma": 0.0,
+        "e_sigma": 0.0,
+        "f_sigma": 0.0,
+        "threshold": [0.0,0.0]
+      }
+    }
   }
+
 }

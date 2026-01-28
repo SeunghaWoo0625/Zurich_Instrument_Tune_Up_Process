@@ -18,10 +18,31 @@
         "d1" : {
             "drive" : {
                 "device" : "shfqc_0",
+                "port" : "SGCHANNELS/0/OUTPUT"
+            }
+            ,
+            "drive_ef" : {
+                "device" : "shfqc_0",
+                "port" : "SGCHANNELS/0/OUTPUT"
+            }
+            ,
+            "measure" : {
+                "device" : "shfqc_0",
+                "port" : "QACHANNELS/0/OUTPUT"
+            }
+            ,
+            "acquire" : {
+                "device" : "shfqc_0",
+                "port" : "QACHANNELS/0/INPUT"
+            }
+        },
+        "d2" : {
+            "drive" : {
+                "device" : "shfqc_0",
                 "port" : "SGCHANNELS/1/OUTPUT"
             }
             ,
-            "ef_drive" : {
+            "drive_ef" : {
                 "device" : "shfqc_0",
                 "port" : "SGCHANNELS/1/OUTPUT"
             }
@@ -36,5 +57,6 @@
                 "port" : "QACHANNELS/0/INPUT"
             }
         }
+
     }
 }

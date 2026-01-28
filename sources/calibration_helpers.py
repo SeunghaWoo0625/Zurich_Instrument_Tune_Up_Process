@@ -1,9 +1,10 @@
 from laboneq.simple import *
 import utils
+import attrs
 
 muting_mode = False
 
-def calibrate_devices(qubit_params = None, device_qubit_configs=None, measure_type = "spec_square"):
+def calibrate_devices(qubit_params = None, device_qubit_configs=None, qubit_list = None, measure_type = "spec_square"):
     assert utils.validate_device_existence(device_qubit_configs), "Device existence validation failed. Please check device configuration."
 
     # Device Setup
@@ -11,7 +12,10 @@ def calibrate_devices(qubit_params = None, device_qubit_configs=None, measure_ty
         device_qubit_configs = utils.get_device_qubit_config()
     if qubit_params ==None:
         qubit_params = utils.get_qubit_params()
-
+    if qubit_list == None:
+        qubit_list = device_qubit_configs["qubits"].keys()
+    else:
+        assert list(qubit_list - device_qubit_configs["qubits"].keys()) == []
     device_setup = DeviceSetup()
     device_setup.add_dataserver(**device_qubit_configs["data_server"])
 
@@ -38,13 +42,40 @@ def calibrate_devices(qubit_params = None, device_qubit_configs=None, measure_ty
             )
     
     #Physical connection 설정
-    for qubit in device_qubit_configs["qubits"]:
+    for qubit in qubit_list:
         #xy, measure, acquire 연결
         for drive in device_qubit_configs["qubits"][qubit]:
             device_setup.add_connections(device_qubit_configs["qubits"][qubit][drive]["device"], create_connection(to_signal=f"{qubit}/{drive}_line", ports=device_qubit_configs["qubits"][qubit][drive]["port"]))
 
+    # # device setup 바탕으로 quantum elements 생성
+    # qubits = Transmon.from_device_setup(device_setup)
+    # for i, qubit in enumerate(qubits):
+    #     qubit_uid = qubits[i].uid
+
+    #     drive_port = utils.port_to_int(device_qubit_configs["qubits"][qubit_uid]["drive"]["port"])
+    #     drive_device = device_qubit_configs["qubits"][qubit_uid]["drive"]["device"]
+    #     measure_device = device_qubit_configs["qubits"][qubit_uid]["measure"]["device"]
+    #     acquisition_type = qubit_params[qubit_uid]["measures"][measure_type]["acquire_type"]
+
+    #     qubit.parameters.resonance_frequency_ge = qubit_params[qubit_uid]["information"]["resonance_frequency_ge"]
+    #     qubit.parameters.resonance_frequency_ef = qubit_params[qubit_uid]["information"]["resonance_frequency_ef"]
+    #     qubit.parameters.drive_lo_frequency = qubit_params[measure_device]["sg_channel"]["drive_lo_frequency"][drive_port//2]
+    #     qubit.parameters.readout_resonator_frequency = qubit_params[qubit_uid]["measures"][measure_type]["readout_resonator_frequency"]
+    #     qubit.parameters.readout_lo_frequency = qubit_params[measure_device]["qa_channel"]["readout_lo_frequency"]
+    #     qubit.parameters.readout_integration_delay = qubit_params[qubit_uid]["measures"][measure_type]["readout_integration_delay"]
+    #     qubit.parameters.drive_range = qubit_params[measure_device]["sg_channel"]["drive_range"][drive_port]
+    #     qubit.parameters.readout_range_out = qubit_params[measure_device]["qa_channel"][f"readout_range_out_{acquisition_type}"]
+    #     qubit.parameters.readout_range_in = qubit_params[measure_device]["qa_channel"][f"readout_range_in_{acquisition_type}"]
+    #     qubit.parameters.flux_offset_voltage = qubit_params[qubit_uid]["information"]["flux_offset_voltage"]
+    #     qubit.parameters.user_defined = qubit_params[qubit_uid]
+
+    #     device_setup.qubits[qubit_uid] = qubit
+    #     device_setup.set_calibration(qubit.calibration())
+
+    
+
     #logical signal, baseline calibration 설정
-    for qubit in device_qubit_configs["qubits"]:
+    for qubit in qubit_list:
 
         # logical signal group 설정
         lsg = device_setup.logical_signal_groups[qubit]
@@ -117,12 +148,12 @@ def calibrate_devices(qubit_params = None, device_qubit_configs=None, measure_ty
             range=qubit_params[drive_device]["sg_channel"]["range_out"][drive_port]
         )
 
-        ef_osc = Oscillator(f"{qubit}_ef_drive_osc", frequency=ef_drive_freq, modulation_type=ModulationType.HARDWARE)
-        lsg.logical_signals["ef_drive_line"].calibration = SignalCalibration(
+        ef_osc = Oscillator(f"{qubit}_drive_ef_osc", frequency=ef_drive_freq, modulation_type=ModulationType.HARDWARE)
+        lsg.logical_signals["drive_ef_line"].calibration = SignalCalibration(
             oscillator=ef_osc,
             local_oscillator=drive_lo_osc
         )
 
-        ##나중에 flux도 calibration해야되면 하기        
+        #나중에 flux도 calibration해야되면 하기        
             
     return device_setup

@@ -71,14 +71,14 @@ def analyze_tof_signal(raw_data, delay_axis, time_axis):
         "data_abs": data_abs
     }
 
-def time_of_flight_figure(results, device):
-    handle = results.experiment.uid
+def time_of_flight_figure(results, qubit, device):
+    handle = f"{qubit}_acquire_handle"
     # LabOne Q 결과에서 데이터와 축 추출
     # 결과 형상 가정: (Sweep_Count, Sample_Count)
     raw_data = results.get_data(handle) 
     
     #device의 range in으로 부터 나중에 데이터 voltage로 변환
-    range_in = results.device. 
+    range_in = results.device_setup.get_calibration().get(f"/logical_signal_groups/{qubit}/acquire_line").range
     # 축 정보 가져오기 (LabOne Q 버전에 따라 get_axis 반환값이 다를 수 있음)
     # 일반적으로 axis[0]: Sweep Axis (Delay), axis[1]: Grid Axis (Time)
     axes = results.get_axis(handle)

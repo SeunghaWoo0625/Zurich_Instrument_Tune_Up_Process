@@ -32,7 +32,7 @@ def time_of_flight(qubit_parameters, device_qubit_config,
                                         count=Delay_time_points, 
                                         axis_name="Time (s)")
     
-    readout_pulse = pulse_library.const(uid="readout_pulse", length=Measure_length)
+    readout_pulse = pulse_library.const(uid="readout_pulse", length=Measure_length, amplitude = 0.8)
     now = datetime.now()    
     time_str = now.strftime("%y%m%d_%H%M%S")
     results_folder_path = Path(f"experiment_results/{id}/{time_str}_{Path(__file__).stem}")
@@ -54,30 +54,36 @@ def time_of_flight(qubit_parameters, device_qubit_config,
             compiled_exp = session.compile(exp)
             if save_pulse_sheet == True:
                 show_pulse_sheet(results_folder_path / f"{device}_pulse_sheet", compiled_exp)
+
             results = session.run(compiled_exp, include_results_metadata=True)
-            figure = time_of_flight_figure(results)
+            figure, optimal_delay = time_of_flight_figure(results, qubit, device)
 
             if i == 0:
                 utils.save_fig_qubit_params(results_folder_path, results, figure, device, qubit_parameters=qubit_parameters, device_qubit_config=device_qubit_config, tuneup_parameters=tuneup_parameters)
             else:
                 utils.save_fig_qubit_params(results_folder_path, results, figure, device)
         
-@workflow.task
+# @workflow.task
 def time_of_flight_experiment(qubit, delay_time_sweeper, readout_pulse, Num_avg, reset_delay_length = 70e-6):
     exp_tof = Experiment(uid = "time_of_flight")
 
     with exp_tof.sweep(uid = "delay_time_sweep", parameter = delay_time_sweeper):
         with exp_tof.acquire_loop_rt(uid = "raw_data_acquisition",
                                      count = Num_avg,
+                                    #  averaging_mode=AveragingMode.CYCLIC,
                                      acquisition_type=AcquisitionType.RAW):
             with exp_tof.section(uid = "mesure", on_system_grid=True, alignment=SectionAlignment.LEFT):
                 exp_tof.play(signal = f"{qubit}_measure_signal", pulse = readout_pulse)
+                exp_tof.signals[f"{qubit}_measure_signal"] = ExperimentSignal(f"{qubit}_measure_signal")
                 exp_tof.acquire(signal = f"{qubit}_acquire_signal", handle = f"{qubit}_acquire_handle", kernel = readout_pulse)
+                exp_tof.signals[f"{qubit}_acquire_signal"] = ExperimentSignal(f"{qubit}_acquire_signal")
                 exp_tof.delay(signal = f"{qubit}_measure_signal", time = reset_delay_length)
                 exp_tof.delay(signal = f"{qubit}_acquire_signal", time = reset_delay_length)
 
+
+
     exp_calibration = Calibration()
-    exp_calibration["acquire"] = SignalCalibration(
+    exp_calibration[f"{qubit}_acquire_signal"] = SignalCalibration(
         port_delay=delay_time_sweeper,
     )
     exp_tof.set_calibration(exp_calibration)
