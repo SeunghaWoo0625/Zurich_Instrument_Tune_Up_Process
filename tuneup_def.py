@@ -4,7 +4,7 @@ from laboneq.simple import *
 from laboneq.contrib.example_helpers.plotting.plot_helpers import plot_simulation
 from fitting_helpers import *
 from calibration_helpers import calibrate_devices
-import utils
+import sources.utils as utils
 import sys
 from fitting_helpers import *
 

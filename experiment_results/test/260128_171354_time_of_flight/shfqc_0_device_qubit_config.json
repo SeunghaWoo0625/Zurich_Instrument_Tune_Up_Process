@@ -1,0 +1,52 @@
+{
+    "data_server": {
+        "host": "192.168.0.3",
+        "port": "8004"
+    },
+    "devices": {
+        "shfqc_0": {
+            "uid": "shfqc_0",
+            "address": "DEV12592",
+            "interface": "1GbE",
+            "device_options": "SHFQC/PLUS/QC2CH"
+        }
+    },
+    "qubits": {
+        "d1": {
+            "drive": {
+                "device": "shfqc_0",
+                "port": "SGCHANNELS/0/OUTPUT"
+            },
+            "drive_ef": {
+                "device": "shfqc_0",
+                "port": "SGCHANNELS/0/OUTPUT"
+            },
+            "measure": {
+                "device": "shfqc_0",
+                "port": "QACHANNELS/0/OUTPUT"
+            },
+            "acquire": {
+                "device": "shfqc_0",
+                "port": "QACHANNELS/0/INPUT"
+            }
+        },
+        "d2": {
+            "drive": {
+                "device": "shfqc_0",
+                "port": "SGCHANNELS/1/OUTPUT"
+            },
+            "drive_ef": {
+                "device": "shfqc_0",
+                "port": "SGCHANNELS/1/OUTPUT"
+            },
+            "measure": {
+                "device": "shfqc_0",
+                "port": "QACHANNELS/0/OUTPUT"
+            },
+            "acquire": {
+                "device": "shfqc_0",
+                "port": "QACHANNELS/0/INPUT"
+            }
+        }
+    }
+}

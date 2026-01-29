@@ -97,6 +97,7 @@ def time_of_flight_figure(results, qubit, device):
     ax[0].set_title(f"[{device}] Time of Flight Raw Traces")
     ax[0].set_xlabel("Raw Trace Time [ns]")
     ax[0].set_ylabel("Port Delay [ns]")
+    ax[0].set_ylim(min(delay_axis)*1e9, max(delay_axis)*1e9)
     fig.colorbar(c, ax=ax[0], label="|Amplitude|")
     
     # 최적 위치 표시 (수평선)
