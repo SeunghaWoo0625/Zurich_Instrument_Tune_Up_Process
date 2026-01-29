@@ -1,0 +1,1 @@
+{"__creator__":["laboneq","25.10.3"],"__data__":{"class__":"laboneq_applications.analysis.qubit_spectroscopy.FitDataQubitSpecOptions","do_fitting":true,"fit_parameters_hints":null,"frequency_filters":null,"spectral_feature":"auto"},"__serializer__":"laboneq.serializers.implementations.TaskOptionsSerializer","__version__":1}

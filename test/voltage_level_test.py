@@ -37,13 +37,13 @@ with exp_test.acquire_loop_rt(uid = "acquire_loop",
     with exp_test.section(uid = "measure and play", on_system_grid=True, alignment=SectionAlignment.LEFT):
         exp_test.play(signal = "measure", pulse = measure_test_pulse)
         exp_test.acquire(signal = "acquire", kernel = acquire_test_pulse, handle = "acquire")
-        exp_test.play(signal = "drive", pulse = drive_test_pulse)
+        exp_test.play(signal = "drive", pulse = drive_test_pulse, increment_oscillator_phase=np.pi/2)
         exp_test.delay(signal = "drive", time = 160e-9)
-        exp_test.play(signal = "drive", pulse = drive_test_pulse, )
+        exp_test.play(signal = "drive", pulse = drive_test_pulse, increment_oscillator_phase=np.pi/2)
         exp_test.delay(signal = "drive", time = 160e-9)
-        exp_test.play(signal = "drive", pulse = drive_test_pulse, )
+        exp_test.play(signal = "drive", pulse = drive_test_pulse, increment_oscillator_phase=np.pi/2)
         exp_test.delay(signal = "drive", time = 160e-9)
-        exp_test.play(signal = "drive", pulse = drive_test_pulse, )
+        exp_test.play(signal = "drive", pulse = drive_test_pulse, increment_oscillator_phase=np.pi/2)
         exp_test.delay(signal = "drive", time = 160e-9)
 
         exp_test.delay(signal = "measure", time = 50e-9)

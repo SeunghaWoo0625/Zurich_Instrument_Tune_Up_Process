@@ -1,0 +1,11 @@
+{"event": "start", "workflow": "time_of_flight", "index": [], "time": "2026-01-29 01:26:16.245593+00:00", "input": {"session": "...", "qpu": [{"filename": "time-of-flight.input.qpu.json"}], "qubits": [{"filename": "time-of-flight.input.qubits.json"}], "temporary_parameters": null, "options": [{"filename": "time-of-flight.input.options.json"}]}}
+{"event": "task_start", "task": "temporary_qpu", "index": [], "time": "2026-01-29 01:26:16.282120+00:00", "input": {"qpu": [{"filename": "time-of-flight.input.qpu.json"}], "temporary_parameters": null}}
+{"event": "task_end", "task": "temporary_qpu", "index": [], "time": "2026-01-29 01:26:16.285452+00:00", "output": [{"filename": "temporary-qpu.output.json"}]}
+{"event": "task_start", "task": "temporary_quantum_elements_from_qpu", "index": [], "time": "2026-01-29 01:26:16.297958+00:00", "input": {"qpu": [{"filename": "temporary-qpu.output.json"}], "quantum_elements": [{"filename": "time-of-flight.input.qubits.json"}]}}
+{"event": "task_end", "task": "temporary_quantum_elements_from_qpu", "index": [], "time": "2026-01-29 01:26:16.301659+00:00", "output": [{"filename": "temporary-quantum-elements-from-qpu.output.json"}]}
+{"event": "task_start", "task": "create_experiment", "index": [], "time": "2026-01-29 01:26:16.314141+00:00", "input": {"qpu": [{"filename": "temporary-qpu.output.json"}], "qubits": [{"filename": "temporary-quantum-elements-from-qpu.output.json"}], "options": [{"filename": "create-experiment.input.options.json"}]}}
+{"event": "task_end", "task": "create_experiment", "index": [], "time": "2026-01-29 01:26:16.341173+00:00", "output": [{"filename": "create-experiment.output.json"}]}
+{"event": "task_start", "task": "compile_experiment", "index": [], "time": "2026-01-29 01:26:16.352850+00:00", "input": {"session": "...", "experiment": [{"filename": "create-experiment.output.json"}], "options": [{"filename": "compile-experiment.input.options.json"}]}}
+{"event": "task_error", "task": "compile_experiment", "index": [], "error": "LabOneQException('OverflowError: int too big to convert')", "time": "2026-01-29 01:26:16.374117+00:00"}
+{"event": "task_end", "task": "compile_experiment", "index": [], "time": "2026-01-29 01:26:16.378115+00:00", "output": null}
+{"event": "end", "workflow": "time_of_flight", "index": [], "time": "2026-01-29 01:26:16.381116+00:00", "output": null}

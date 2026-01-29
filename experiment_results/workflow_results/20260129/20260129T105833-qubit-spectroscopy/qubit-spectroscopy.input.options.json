@@ -1,0 +1,1 @@
+{"__creator__":["laboneq","25.10.3"],"__data__":{"_task_options":{},"class__":"laboneq_applications.experiments.options.TuneUpWorkflowOptions","do_analysis":true,"update":true},"__serializer__":"laboneq.serializers.implementations.WorkflowOptionsSerializer","__version__":1}

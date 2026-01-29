@@ -17,10 +17,9 @@ class TuneUpProcessOptions:
 
 @workflow.task_options
 class TimeOfFlightExperimentOptions:
-    count: int = 100             
+    count: int = 10             
     Delay_time_begin:float = 0e-9
     Delay_time_end:float = 100e-9
-    Delay_time_points:int = 100
+    Delay_time_points:int = 11
     Measure_length:float = 100e-9
-    reset_delay_length: float = 20e-9
-    passive_reset_delay = 70e6
+    passive_reset_delay = 70e9

@@ -1,0 +1,1 @@
+{"__creator__":["laboneq","25.10.3"],"__data__":{"Delay_time_begin":0.0,"Delay_time_end":1e-7,"Delay_time_points":11,"Measure_length":1e-7,"class__":"Experimental_Setup_Parameters.tune_up_options.TimeOfFlightExperimentOptions","count":10},"__serializer__":"laboneq.serializers.implementations.TaskOptionsSerializer","__version__":1}

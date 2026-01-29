@@ -1,0 +1,1 @@
+{"__creator__":["laboneq","25.10.3"],"__data__":{"class__":"laboneq_applications.analysis.qubit_spectroscopy.PlotQubitSpectroscopyOptions","close_figures":true,"do_fitting":true,"save_figures":true},"__serializer__":"laboneq.serializers.implementations.TaskOptionsSerializer","__version__":1}

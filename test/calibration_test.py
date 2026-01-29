@@ -58,7 +58,8 @@ acquisition_type=AcquisitionType.SPECTROSCOPY,
                 test_exp.reserve(signal=exp_signal_id)
 
             with test_exp.section(uid=f"acquire_{qubit_name}_section", play_after = f"shoot_{qubit_name}"):
-                test_exp.acquire(signal = acquire_id, 
+                test_exp.play(signal="measure", pulse=test_pulse, phase=phase_sweep)
+                test_exp.acquire(signal = "acquire", 
                                 handle = acquire_id,
                                 kernel=test_pulse,
                                 )

@@ -2,9 +2,9 @@
   "shfqc_0": {
     "qa_channel": {
       "readout_lo_frequency": 7200000000.0,
-      "readout_range_out_INTEGRATION": -20,
+      "readout_range_out_INTEGRATION": -10,
       "readout_range_in_INTEGRATION": 0,
-      "readout_range_out_SPECTROSCOPY": 0,
+      "readout_range_out_SPECTROSCOPY": -10,
       "readout_range_in_SPECTROSCOPY": 0
     },
     "sg_channel": {
@@ -14,8 +14,8 @@
         6000000000.0
       ],
       "drive_range": [
-        -20,
         0,
+        10,
         0,
         0,
         0,
@@ -24,7 +24,7 @@
     }
   },
   "d1": {
-    "resonance_frequency_ge" : 4406518500.0,
+    "resonance_frequency_ge" : 4365518500.0,
     "resonance_frequency_ef" : 4000000000.0,
     "ge_T1": 0,
     "ge_T2": 0,
@@ -37,7 +37,7 @@
 
     "ge_drive_amplitude_pi": 0.2,
     "ge_drive_amplitude_pi2": 0.1,
-    "ge_drive_length": 5e-08,
+    "ge_drive_length": 1e-06,
     "ge_drive_pulse": {
       "function": "drag",
       "beta": 0,
@@ -52,7 +52,7 @@
       "sigma": 0.25
     },
 
-    "readout_resonator_frequency" : 7145104600.0, 
+    "readout_resonator_frequency" : 7140904600.0, 
     "readout_integration_delay": 8.5e-08,
 
     "reset_delay_length" : 70e6, 
@@ -65,7 +65,7 @@
     "readout_integration_length": 1e-06,
     "readout_integration_kernels_type": "default",
     "readout_integration_kernels": "None",
-    "readout_integration_discrimination_thresholds": "None",
+    "readout_integration_discrimination_thresholds": 0.0,
     "spectroscopy_length": 1e-06,
     "spectroscopy_amplitude": 1,
     "spectroscopy_pulse": {
@@ -78,7 +78,7 @@
     "user_defined": {}
   },
   "d2": {
-    "resonance_frequency_ge" : 4406518500.0,
+    "resonance_frequency_ge" : 4366518500.0,
     "resonance_frequency_ef" : 4000000000.0,
     "ge_T1": 0,
     "ge_T2": 0,
@@ -119,7 +119,7 @@
     "readout_integration_length": 1e-06,
     "readout_integration_kernels_type": "default",
     "readout_integration_kernels": "None",
-    "readout_integration_discrimination_thresholds": "None",
+    "readout_integration_discrimination_thresholds": 0.0,
     "spectroscopy_length": 1e-06,
     "spectroscopy_amplitude": 1,
     "spectroscopy_pulse": {
