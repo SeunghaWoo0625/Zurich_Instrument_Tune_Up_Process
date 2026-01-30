@@ -24,20 +24,21 @@ from sources.calibration_helpers import calibrate_devices
 import sources.utils as utils
 from laboneq.dsl.parameter import SweepParameter
 from laboneq_applications.typing import QuantumElements, QubitSweepPoints
+from laboneq.dsl.quantum import QuantumElement
 
 @workflow.workflow(name = "time_of_flight")
 def experiment_workflow(
     session: Session,
     qpu: QPU,
-    qubits : QuantumElements,
+    qubit : QuantumElement,
     temporary_parameters : dict[str, dict | QDLTransmon] | None = None,
     options : TuneUpProcessOptions | None = None, # metadata 저장 RunExperimentOptions(include_results_metadata = True)
 ) -> None:
     temp_qpu = temporary_qpu(qpu, temporary_parameters)
-    qubits = temporary_quantum_elements_from_qpu(temp_qpu, qubits)
+    qubit = temporary_quantum_elements_from_qpu(temp_qpu, qubit)
     exp = create_experiment(
         temp_qpu,
-        qubits
+        qubit
     )
     compiled_exp = compile_experiment(session, exp)
     # with workflow.if_(options.save_pulse_sheet):
@@ -55,29 +56,30 @@ def experiment_workflow(
 @dsl.qubit_experiment
 def create_experiment(
     qpu: QPU,
-    qubits: QuantumElements,
+    qubit: QuantumElement,
     options: TimeOfFlightExperimentOptions | None = None,
 ) -> Experiment:
     options = TimeOfFlightExperimentOptions() if options is None else options
-    sweeper = [np.linspace(options.Delay_time_begin, options.Delay_time_end, options.Delay_time_points) for i in qubits]
-    qubits, time_delays = validation.validate_and_convert_qubits_sweeps(qubits, sweeper)
+    sweeper = np.linspace(options.Delay_time_begin, options.Delay_time_end, options.Delay_time_points)
+    qubit, time_delays = validation.validate_and_convert_single_qubit_sweeps(qubit, sweeper)
     qop = qpu.quantum_operations
     # for q, q_time_delay in zip(qubits, time_delays):
     #     print(q, q_time_delay)
-    with dsl.acquire_loop_rt(
-                count = options.count,
-                averaging_mode = AveragingMode.CYCLIC,
-                acquisition_type = AcquisitionType.RAW
-    ):
-        for q, q_time_delay in zip(qubits, time_delays):
-            print(q, q_time_delay)
-            with dsl.sweep(
-                name = "delay_sweep",
-                parameter = SweepParameter("Delay_sweep_{qubit.uid}", q_time_delay),
-            )as time_delay:
-                calibration = dsl.experiment_calibration()
-                signal_calibration = calibration[q.signals["acquire"]]
-                signal_calibration.port_delay = time_delay
+
+
+    with dsl.sweep(
+        name = "delay_sweep",
+        parameter = SweepParameter("Delay_sweep", sweeper),
+    )as time_delay:
+        with dsl.acquire_loop_rt(
+        count = options.count,
+        averaging_mode = AveragingMode.CYCLIC,
+        acquisition_type = AcquisitionType.RAW
+        ):
+            print(qubit, sweeper)  
+            calibration = dsl.experiment_calibration()
+            signal_calibration = calibration[qubit.signals["acquire"]]
+            signal_calibration.port_delay = time_delay
 #                 sec = qop.measure(q, dsl.handles.result_handle(q.uid))
 #                 sec.length = 1e6
 #                 qop.passive_reset(q, delay=options.passive_reset_delay)

@@ -1,0 +1,9 @@
+{"event": "start", "workflow": "time_of_flight", "index": [], "time": "2026-01-30 06:08:15.082298+00:00", "input": {"session": "...", "qpu": [{"filename": "time-of-flight.input.qpu.json"}], "qubit": [{"filename": "time-of-flight.input.qubit.json"}], "temporary_parameters": null, "options": [{"filename": "time-of-flight.input.options.json"}]}}
+{"event": "task_start", "task": "temporary_qpu", "index": [], "time": "2026-01-30 06:08:15.113318+00:00", "input": {"qpu": [{"filename": "time-of-flight.input.qpu.json"}], "temporary_parameters": null}}
+{"event": "task_end", "task": "temporary_qpu", "index": [], "time": "2026-01-30 06:08:15.117556+00:00", "output": [{"filename": "temporary-qpu.output.json"}]}
+{"event": "task_start", "task": "temporary_quantum_elements_from_qpu", "index": [], "time": "2026-01-30 06:08:15.129157+00:00", "input": {"qpu": [{"filename": "temporary-qpu.output.json"}], "quantum_elements": [{"filename": "time-of-flight.input.qubit.json"}]}}
+{"event": "task_end", "task": "temporary_quantum_elements_from_qpu", "index": [], "time": "2026-01-30 06:08:15.133660+00:00", "output": [{"filename": "temporary-quantum-elements-from-qpu.output.json"}]}
+{"event": "task_start", "task": "create_experiment", "index": [], "time": "2026-01-30 06:08:15.144423+00:00", "input": {"qpu": [{"filename": "temporary-qpu.output.json"}], "qubit": [{"filename": "temporary-quantum-elements-from-qpu.output.json"}], "options": null}}
+{"event": "task_error", "task": "create_experiment", "index": [], "error": "NameError(\"name 'q' is not defined\")", "time": "2026-01-30 06:08:15.148499+00:00"}
+{"event": "task_end", "task": "create_experiment", "index": [], "time": "2026-01-30 06:08:15.152702+00:00", "output": null}
+{"event": "end", "workflow": "time_of_flight", "index": [], "time": "2026-01-30 06:08:15.156333+00:00", "output": null}

@@ -6,9 +6,9 @@
     "devices" :{
         "shfqc_0" :{
             "uid" : "shfqc_0",
-            "address" : "DEV12079",
+            "address" : "DEV12592", 
             "interface" : "1GbE",
-            "device_options" : "SHFQC/PLUS/QC6CH"
+            "device_options" : "SHFQC/PLUS/QC2CH"
         }
         
 

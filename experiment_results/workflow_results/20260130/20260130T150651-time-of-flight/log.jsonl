@@ -1,0 +1,9 @@
+{"event": "start", "workflow": "time_of_flight", "index": [], "time": "2026-01-30 06:06:51.334975+00:00", "input": {"session": "...", "qpu": [{"filename": "time-of-flight.input.qpu.json"}], "qubits": [{"filename": "time-of-flight.input.qubits.json"}], "temporary_parameters": null, "options": [{"filename": "time-of-flight.input.options.json"}]}}
+{"event": "task_start", "task": "temporary_qpu", "index": [], "time": "2026-01-30 06:06:51.366417+00:00", "input": {"qpu": [{"filename": "time-of-flight.input.qpu.json"}], "temporary_parameters": null}}
+{"event": "task_end", "task": "temporary_qpu", "index": [], "time": "2026-01-30 06:06:51.369417+00:00", "output": [{"filename": "temporary-qpu.output.json"}]}
+{"event": "task_start", "task": "temporary_quantum_elements_from_qpu", "index": [], "time": "2026-01-30 06:06:51.381420+00:00", "input": {"qpu": [{"filename": "temporary-qpu.output.json"}], "quantum_elements": [{"filename": "time-of-flight.input.qubits.json"}]}}
+{"event": "task_end", "task": "temporary_quantum_elements_from_qpu", "index": [], "time": "2026-01-30 06:06:51.385929+00:00", "output": [{"filename": "temporary-quantum-elements-from-qpu.output.json"}]}
+{"event": "task_start", "task": "create_experiment", "index": [], "time": "2026-01-30 06:06:51.397053+00:00", "input": {"qpu": [{"filename": "temporary-qpu.output.json"}], "qubit": [{"filename": "temporary-quantum-elements-from-qpu.output.json"}], "options": null}}
+{"event": "task_error", "task": "create_experiment", "index": [], "error": "TypeError('Only a single qubit is supported.')", "time": "2026-01-30 06:06:51.400053+00:00"}
+{"event": "task_end", "task": "create_experiment", "index": [], "time": "2026-01-30 06:06:51.404053+00:00", "output": null}
+{"event": "end", "workflow": "time_of_flight", "index": [], "time": "2026-01-30 06:06:51.407054+00:00", "output": null}

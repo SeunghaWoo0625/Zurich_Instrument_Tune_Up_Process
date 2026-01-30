@@ -1,0 +1,12 @@
+{"event": "start", "workflow": "time_of_flight", "index": [], "time": "2026-01-30 06:20:48.754332+00:00", "input": {"session": "...", "qpu": [{"filename": "time-of-flight.input.qpu.json"}], "qubit": [{"filename": "time-of-flight.input.qubit.json"}], "temporary_parameters": null, "options": [{"filename": "time-of-flight.input.options.json"}]}}
+{"event": "task_start", "task": "temporary_qpu", "index": [], "time": "2026-01-30 06:20:48.786626+00:00", "input": {"qpu": [{"filename": "time-of-flight.input.qpu.json"}], "temporary_parameters": null}}
+{"event": "task_end", "task": "temporary_qpu", "index": [], "time": "2026-01-30 06:20:48.790124+00:00", "output": [{"filename": "temporary-qpu.output.json"}]}
+{"event": "task_start", "task": "temporary_quantum_elements_from_qpu", "index": [], "time": "2026-01-30 06:20:48.803492+00:00", "input": {"qpu": [{"filename": "temporary-qpu.output.json"}], "quantum_elements": [{"filename": "time-of-flight.input.qubit.json"}]}}
+{"event": "task_end", "task": "temporary_quantum_elements_from_qpu", "index": [], "time": "2026-01-30 06:20:48.807512+00:00", "output": [{"filename": "temporary-quantum-elements-from-qpu.output.json"}]}
+{"event": "task_start", "task": "create_experiment", "index": [], "time": "2026-01-30 06:20:48.817514+00:00", "input": {"qpu": [{"filename": "temporary-qpu.output.json"}], "qubit": [{"filename": "temporary-quantum-elements-from-qpu.output.json"}], "options": null}}
+{"event": "task_end", "task": "create_experiment", "index": [], "time": "2026-01-30 06:20:48.828510+00:00", "output": [{"filename": "create-experiment.output.json"}]}
+{"event": "task_start", "task": "compile_experiment", "index": [], "time": "2026-01-30 06:20:48.840293+00:00", "input": {"session": "...", "experiment": [{"filename": "create-experiment.output.json"}], "options": null}}
+{"event": "task_end", "task": "compile_experiment", "index": [], "time": "2026-01-30 06:20:48.859961+00:00", "output": [{"filename": "compile-experiment.output.json"}]}
+{"event": "task_start", "task": "run_experiment", "index": [], "time": "2026-01-30 06:20:48.880969+00:00", "input": {"session": "...", "compiled_experiment": [{"filename": "compile-experiment.output.json"}], "options": null}}
+{"event": "task_end", "task": "run_experiment", "index": [], "time": "2026-01-30 06:20:49.023200+00:00", "output": [{"filename": "run-experiment.output.json"}]}
+{"event": "end", "workflow": "time_of_flight", "index": [], "time": "2026-01-30 06:20:49.034419+00:00", "output": [{"filename": "run-experiment.output.json"}]}

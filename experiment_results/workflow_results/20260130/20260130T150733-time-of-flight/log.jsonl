@@ -1,0 +1,9 @@
+{"event": "start", "workflow": "time_of_flight", "index": [], "time": "2026-01-30 06:07:33.948957+00:00", "input": {"session": "...", "qpu": [{"filename": "time-of-flight.input.qpu.json"}], "qubit": [{"filename": "time-of-flight.input.qubit.json"}], "temporary_parameters": null, "options": [{"filename": "time-of-flight.input.options.json"}]}}
+{"event": "task_start", "task": "temporary_qpu", "index": [], "time": "2026-01-30 06:07:33.983007+00:00", "input": {"qpu": [{"filename": "time-of-flight.input.qpu.json"}], "temporary_parameters": null}}
+{"event": "task_end", "task": "temporary_qpu", "index": [], "time": "2026-01-30 06:07:33.987007+00:00", "output": [{"filename": "temporary-qpu.output.json"}]}
+{"event": "task_start", "task": "temporary_quantum_elements_from_qpu", "index": [], "time": "2026-01-30 06:07:34.003956+00:00", "input": {"qpu": [{"filename": "temporary-qpu.output.json"}], "quantum_elements": [{"filename": "time-of-flight.input.qubit.json"}]}}
+{"event": "task_end", "task": "temporary_quantum_elements_from_qpu", "index": [], "time": "2026-01-30 06:07:34.019434+00:00", "output": [{"filename": "temporary-quantum-elements-from-qpu.output.json"}]}
+{"event": "task_start", "task": "create_experiment", "index": [], "time": "2026-01-30 06:07:34.037447+00:00", "input": {"qpu": [{"filename": "temporary-qpu.output.json"}], "qubit": [{"filename": "temporary-quantum-elements-from-qpu.output.json"}], "options": null}}
+{"event": "task_error", "task": "create_experiment", "index": [], "error": "UnboundLocalError(\"cannot access local variable 'q_time_delay' where it is not associated with a value\")", "time": "2026-01-30 06:07:34.044976+00:00"}
+{"event": "task_end", "task": "create_experiment", "index": [], "time": "2026-01-30 06:07:34.053490+00:00", "output": null}
+{"event": "end", "workflow": "time_of_flight", "index": [], "time": "2026-01-30 06:07:34.060490+00:00", "output": null}
