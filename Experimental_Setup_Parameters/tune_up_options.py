@@ -20,6 +20,6 @@ class TimeOfFlightExperimentOptions:
     count: int = 10             
     Delay_time_begin:float = 0e-9
     Delay_time_end:float = 100e-9
-    Delay_time_points:int = 11
+    Delay_time_points:int = 11 # 2ns
     Measure_length:float = 100e-9
     passive_reset_delay = 70e9
