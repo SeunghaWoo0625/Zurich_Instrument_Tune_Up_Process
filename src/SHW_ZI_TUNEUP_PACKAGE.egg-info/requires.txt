@@ -1,0 +1,4 @@
+numpy
+laboneq
+laboneq_applications
+matplotlib

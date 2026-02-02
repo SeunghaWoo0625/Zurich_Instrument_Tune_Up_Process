@@ -1,0 +1,31 @@
+# [1] 빌드 시스템 정의 (필수)
+# "이 프로젝트는 setuptools라는 도구를 써서 설치할 거야"라고 선언하는 부분입니다.
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+# [2] 프로젝트 메타데이터 (내 프로젝트 정보)
+[project]
+name = "SHW_ZI_TUNEUP_PACKAGE"  # pip list 할 때 나올 이름 (원하는 대로 지으세요)
+version = "0.1.0"
+description = "Zurich Instruments 제어 및 실험용 패키지"
+readme = "README.md"         # 설명 파일이 있다면 (없으면 지워도 됨)
+requires-python = ">=3.8"    # 필요한 파이썬 최소 버전
+authors = [
+  {name = "User Name", email = "user@example.com"}
+]
+
+# [3] 의존성 라이브러리 (requirements.txt 역할)
+# 이 프로젝트를 설치할 때 자동으로 같이 설치되어야 할 남의 패키지들
+dependencies = [
+    "numpy",
+    "laboneq",     # 아까 사용하시던 패키지
+    "laboneq_applications",
+    "matplotlib",  # 필요하면 추가
+]
+
+# [4] 패키지 탐색 설정 (옵션이지만 추천)
+# 자동으로 A 폴더를 찾겠지만, 명시적으로 적어주면 더 안전합니다.
+[tool.setuptools.packages.find]
+where = ["."]  # 현재 폴더(루트)에서 패키지(A)를 찾아라
+# include = ["src/SHW_ZI_TUNEUP_PACKAGE"]

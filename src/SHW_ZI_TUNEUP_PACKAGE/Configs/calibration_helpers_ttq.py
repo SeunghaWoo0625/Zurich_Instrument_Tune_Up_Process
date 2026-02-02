@@ -1,13 +1,13 @@
 from laboneq.simple import *
-from . import utils 
-from laboneq_applications.qpu_types.tunable_transmon import TunableTransmonQubit
+from . import utils_ttq as utils
+from laboneq_applications.qpu_types.tunable_transmon import TunableTransmonQubit, TunableTransmonOperations
 muting_mode = False
 
-def calibrate_devices(
+def calibrate_devices_ttq(
         qubit_params : dict | None = None, 
         device_qubit_configs : dict | None = None, 
         qubit_list : list | None = None,
-        measure_type : str = "spec_square"):
+        measure_type : str = "INTEGRATION"):
     # Device Setup
     if device_qubit_configs == None:
         device_qubit_configs = utils.get_device_qubit_config()
@@ -58,24 +58,24 @@ def calibrate_devices(
         qubit_params_to_replace = qubit_params[qubit_uid]
         qubit.parameters = qubit.parameters.replace(**qubit_params_to_replace)
 
-        qubit.parameters.drive_device = device_qubit_configs["qubits"][qubit_uid]["drive"]["device"]
-        qubit.parameters.drive_port = utils.port_to_int(device_qubit_configs["qubits"][qubit_uid]["drive"]["port"])
-        qubit.parameters.measure_device = device_qubit_configs["qubits"][qubit_uid]["measure"]["device"]
+        qubit.parameters.user_defined["drive_device"] = device_qubit_configs["qubits"][qubit_uid]["drive"]["device"]
+        qubit.parameters.user_defined["drive_port"] = utils.port_to_int(device_qubit_configs["qubits"][qubit_uid]["drive"]["port"])
+        qubit.parameters.user_defined["measure_device"] = device_qubit_configs["qubits"][qubit_uid]["measure"]["device"]
         if "flux" in qubit.signals:
-            qubit.parameters.flux_device = device_qubit_configs["qubits"][qubit_uid]["flux"]["device"]
-            qubit.parameters.flux_port = utils.port_to_int(device_qubit_configs["qubits"][qubit_uid]["flux"]["port"])
-            qubit.parameters.flux_range = qubit_params[qubit.parameters.flux_device]["flux_range"][qubit.parameters.flux_port]
+            qubit.parameters.user_defined["flux_device"] = device_qubit_configs["qubits"][qubit_uid]["flux"]["device"]
+            qubit.parameters.user_defined["flux_port"] = utils.port_to_int(device_qubit_configs["qubits"][qubit_uid]["flux"]["port"])
+            qubit.parameters.user_defined["flux_range"] = qubit_params[qubit.parameters.user_defined["flux_device"]]["flux_range"][qubit.parameters.user_defined["flux_port"]]
 
-        qubit.parameters.drive_lo_frequency = qubit_params[qubit.parameters.drive_device]["sg_channel"]["drive_lo_frequency"][qubit.parameters.drive_port//2]
-        qubit.parameters.readout_lo_frequency = qubit_params[qubit.parameters.measure_device]["qa_channel"]["readout_lo_frequency"]
-        qubit.parameters.readout_range_out = qubit_params[qubit.parameters.measure_device]["qa_channel"][f"readout_range_out_{measure_type}"]
-        qubit.parameters.readout_range_in = qubit_params[qubit.parameters.measure_device]["qa_channel"][f"readout_range_in_{measure_type}"]
-        qubit.parameters.drive_range = qubit_params[qubit.parameters.drive_device]["sg_channel"]["drive_range"][qubit.parameters.drive_port]
+        qubit.parameters.drive_lo_frequency = qubit_params[qubit.parameters.user_defined["drive_device"]]["sg_channel"]["drive_lo_frequency"][qubit.parameters.user_defined["drive_port"]//2]
+        qubit.parameters.readout_lo_frequency = qubit_params[qubit.parameters.user_defined["measure_device"]]["qa_channel"]["readout_lo_frequency"]
+        qubit.parameters.readout_range_out = qubit_params[qubit.parameters.user_defined["measure_device"]]["qa_channel"][f"readout_range_out_{measure_type}"]
+        qubit.parameters.readout_range_in = qubit_params[qubit.parameters.user_defined["measure_device"]]["qa_channel"][f"readout_range_in_{measure_type}"]
+        qubit.parameters.drive_range = qubit_params[qubit.parameters.user_defined["drive_device"]]["sg_channel"]["drive_range"][qubit.parameters.user_defined["drive_port"]]
 
         device_setup.qubits[qubit_uid] = qubit
         device_setup.set_calibration(qubit.calibration())
 
-    qpu = QPU(quantum_elements=qubits, quantum_operations=QDLTransmonOperations())
+    qpu = QPU(quantum_elements=qubits, quantum_operations=TunableTransmonOperations())
     qt_platform = QuantumPlatform(setup=device_setup, qpu=qpu)
 
     return qt_platform

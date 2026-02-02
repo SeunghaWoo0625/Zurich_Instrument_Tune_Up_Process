@@ -5,9 +5,10 @@ Transmon = TunableTransmonQubit(
     uid = "test",
     signals = {
         "drive": "drive",
-        "drive_ef": "drive_ef"
+        "drive_ef": "drive_ef",
         "measure" : "measure", 
         "acquire" : "acquire",
     }
 )
+QOP = TunableTransmonOperations()
 #%%

@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: SHW_ZI_TUNEUP_PACKAGE
+Version: 0.1.0
+Summary: Zurich Instruments 제어 및 실험용 패키지
+Author-email: User Name <user@example.com>
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: numpy
+Requires-Dist: laboneq
+Requires-Dist: laboneq_applications
+Requires-Dist: matplotlib
