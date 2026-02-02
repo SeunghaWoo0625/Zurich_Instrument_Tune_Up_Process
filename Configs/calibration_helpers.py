@@ -1,5 +1,5 @@
 from laboneq.simple import *
-import utils 
+from . import utils 
 
 muting_mode = False
 
@@ -17,7 +17,7 @@ def calibrate_devices(
         qubit_list = device_qubit_configs["qubits"].keys()
     else:
         assert list(qubit_list - device_qubit_configs["qubits"].keys()) == []
-        
+    
     assert utils.validate_device_existence(device_qubit_configs), "Device existence validation failed. Please check device configuration."
 
     device_setup = DeviceSetup()

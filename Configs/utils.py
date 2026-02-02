@@ -5,14 +5,17 @@ from laboneq.simple import *
 from laboneq.workflow.logbook import FolderStore
 from laboneq import *
 
-global abs_path
+UtilsFile = Path(__file__).resolve()
+print(UtilsFile)
+ConfigsPath = UtilsFile.parent
+print(ConfigsPath)
+MainPath = ConfigsPath.parent
+print(MainPath)
 
-current_file = Path(__file__).resolve()
-main_path = current_file.parent
-DEVICE_QUBIT_CONFIG_FILE = main_path / "Config/device_qubit_config.json"
-QUBIT_PARAMETERS_FILE =  main_path / "Config/qubit_parameters.json"
-WORKFLOW_SAVE_PATH = main_path / "Config/workflow_results"
-PULSE_SHEET_SAVE_PATH = main_path / "Config/pulse_visualization_html"
+DEVICE_QUBIT_CONFIG_FILE = ConfigsPath / "/device_qubit_config.json"
+QUBIT_PARAMETERS_FILE =  ConfigsPath / "/qubit_parameters.json"
+WORKFLOW_SAVE_PATH = MainPath / "/workflow_results"
+PULSE_SHEET_SAVE_PATH = MainPath / "/pulse_visualization_html"
 
 def init_storage():
     store = FolderStore(WORKFLOW_SAVE_PATH)
