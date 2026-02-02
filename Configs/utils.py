@@ -12,10 +12,10 @@ print(ConfigsPath)
 MainPath = ConfigsPath.parent
 print(MainPath)
 
-DEVICE_QUBIT_CONFIG_FILE = ConfigsPath / "/device_qubit_config.json"
-QUBIT_PARAMETERS_FILE =  ConfigsPath / "/qubit_parameters.json"
-WORKFLOW_SAVE_PATH = MainPath / "/workflow_results"
-PULSE_SHEET_SAVE_PATH = MainPath / "/pulse_visualization_html"
+DEVICE_QUBIT_CONFIG_FILE = ConfigsPath / "device_qubit_config.json"
+QUBIT_PARAMETERS_FILE =  ConfigsPath / "qubit_parameters.json"
+WORKFLOW_SAVE_PATH = MainPath / "workflow_results"
+PULSE_SHEET_SAVE_PATH = MainPath / "pulse_visualization_html"
 
 def init_storage():
     store = FolderStore(WORKFLOW_SAVE_PATH)
