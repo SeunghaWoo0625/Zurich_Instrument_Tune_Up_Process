@@ -9,10 +9,10 @@ global abs_path
 
 current_file = Path(__file__).resolve()
 main_path = current_file.parent
-DEVICE_QUBIT_CONFIG_FILE = main_path / "device_qubit_config.json"
-QUBIT_PARAMETERS_FILE =  main_path / "qubit_parameters.json"
-WORKFLOW_SAVE_PATH = main_path / "workflow_results"
-PULSE_SHEET_SAVE_PATH = main_path / "pulse_visualization_html"
+DEVICE_QUBIT_CONFIG_FILE = main_path / "Config/device_qubit_config.json"
+QUBIT_PARAMETERS_FILE =  main_path / "Config/qubit_parameters.json"
+WORKFLOW_SAVE_PATH = main_path / "Config/workflow_results"
+PULSE_SHEET_SAVE_PATH = main_path / "Config/pulse_visualization_html"
 
 def init_storage():
     store = FolderStore(WORKFLOW_SAVE_PATH)
